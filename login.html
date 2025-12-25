@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <!-- Viewport optimization -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+
+    <!-- Mobile web app capabilities -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="mobile-web-app-capable" content="yes">
+
+    <!-- Preload critical mobile resources -->
+    <link rel="stylesheet" href="mobile-optimizations.css">
+    <title>Login - Games Collection</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="login.css">
+    <style>
+        /* Login page mobile-first styles */
+        * {
+            box-sizing: border-box;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+        
+        .login-wrapper {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding-top: 60px;
+            width: 100%;
+        }
+        
+        .login-header {
+            text-align: center;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .login-main {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 15px;
+            width: 100%;
+        }
+        
+        .login-footer {
+            text-align: center;
+            padding: 20px 15px;
+            color: white;
+            background: linear-gradient(90deg, rgba(255, 51, 153, 0.8), rgba(255, 204, 0, 0.8));
+            margin-top: auto;
+            font-size: 0.9em;
+        }
+        
+        /* Navigation for login page */
+        .login-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(90deg, #ff3399, #ffcc00, #33ccff);
+            padding: 12px 15px;
+            z-index: 10000;
+            border-bottom: 2px solid white;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.2);
+            min-height: 60px;
+        }
+        
+        .login-nav-container {
+            max-width: 100%;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .login-nav-brand {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.2em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .login-nav-links {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        
+        .login-nav-link {
+            color: white;
+            text-decoration: none;
+            padding: 6px 12px;
+            border-radius: 18px;
+            border: 2px solid white;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.1);
+            font-size: 0.9em;
+            min-height: 36px;
+            min-width: 36px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            touch-action: manipulation;
+        }
+        
+        .login-nav-link:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        /* Mobile optimizations */
+        @media (max-width: 768px) {
+            .login-wrapper {
+                padding-top: 80px;
+            }
+            
+            .login-nav-container {
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+            }
+            
+            .login-nav-links {
+                justify-content: center;
+                flex-wrap: wrap;
+                width: 100%;
+            }
+            
+            .login-nav-link {
+                padding: 6px 10px;
+                font-size: 0.85em;
+            }
+            
+            .login-main {
+                padding: 10px;
+            }
+            
+            h1 {
+                font-size: 1.8em !important;
+            }
+            
+            .subtitle {
+                font-size: 1em !important;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .login-wrapper {
+                padding-top: 90px;
+            }
+            
+            .login-nav {
+                padding: 10px 12px;
+            }
+            
+            .login-nav-brand {
+                font-size: 1.1em;
+            }
+            
+            .login-nav-link {
+                padding: 5px 8px;
+                font-size: 0.8em;
+            }
+            
+            .login-header {
+                padding: 10px;
+            }
+            
+            .login-main {
+                padding: 8px;
+            }
+            
+            h1 {
+                font-size: 1.6em !important;
+            }
+        }
+        
+        /* Tablet optimizations */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .login-wrapper {
+                padding-top: 70px;
+            }
+            
+            .login-main {
+                padding: 20px;
+            }
+        }
+        
+        /* Large mobile/landscape mode */
+        @media (max-height: 500px) and (orientation: landscape) {
+            .login-wrapper {
+                padding-top: 60px;
+            }
+            
+            .login-nav {
+                padding: 8px 12px;
+                min-height: 50px;
+            }
+            
+            .login-main {
+                padding: 10px;
+                align-items: flex-start;
+                margin-top: 10px;
+            }
+            
+            .login-header {
+                padding: 10px;
+                margin-bottom: 10px;
+            }
+            
+            .login-nav-brand {
+                font-size: 1em;
+            }
+            
+            .login-nav-link {
+                padding: 4px 8px;
+                font-size: 0.8em;
+                min-height: 32px;
+            }
+        }
+        
+        /* Safe area support for notched phones */
+        @supports (padding: max(0px)) {
+            .login-wrapper {
+                padding-top: max(60px, env(safe-area-inset-top));
+                padding-left: max(15px, env(safe-area-inset-left));
+                padding-right: max(15px, env(safe-area-inset-right));
+                padding-bottom: max(15px, env(safe-area-inset-bottom));
+            }
+        }
+        
+        /* Adjust login container for mobile */
+        .login-container {
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        /* Adjust form elements for mobile */
+        .form-group input {
+            font-size: 16px !important; /* Prevent zoom on iOS */
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Mobile-optimized Navigation Bar -->
+    <nav class="login-nav">
+        <div class="login-nav-container">
+            <a href="index.html" class="login-nav-brand">
+                <span>🎮</span>
+                Games Collection
+            </a>
+            <div class="login-nav-links">
+                <a href="index.html" class="login-nav-link">🏠 Home</a>
+                <a href="profile.html" class="login-nav-link">👤 Profile</a>
+                <a href="leaderboard.html" class="login-nav-link">🏆 Leaderboard</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="login-wrapper">
+        <div class="login-header">
+            <h1 style="font-size: 2em;">🎮 Games Collection</h1>
+            <p class="subtitle" style="font-size: 1em;">Login or create an account to save your scores!</p>
+        </div>
+        
+        <main class="login-main">
+            <div class="login-container">
+                <div class="tab-switcher">
+                    <button class="active" data-tab="login" style="min-height: 44px;">Login</button>
+                    <button data-tab="register" style="min-height: 44px;">Register</button>
+                </div>
+                
+                <div class="form-container">
+                    <!-- Login Form -->
+                    <div id="login-form" class="form-tab active">
+                        <div id="login-error" class="error-message"></div>
+                        
+                        <div class="form-group">
+                            <label for="login-username">🎯 Username</label>
+                            <input type="text" id="login-username" placeholder="Enter your username" autocomplete="username">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="login-password">🔑 Password</label>
+                            <input type="password" id="login-password" placeholder="Enter your password" autocomplete="current-password">
+                        </div>
+                        
+                        <button id="login-btn" class="login-button" style="min-height: 50px;">Login & Play! ✨</button>
+                    </div>
+                    
+                    <!-- Register Form -->
+                    <div id="register-form" class="form-tab">
+                        <div id="register-error" class="error-message"></div>
+                        <div id="register-success" class="success-message"></div>
+                        
+                        <div class="form-group">
+                            <label for="register-username">🌟 Choose Username</label>
+                            <input type="text" id="register-username" placeholder="Enter a username" autocomplete="username">
+                            <small class="username-hint" style="font-size: 0.85em;">3-20 characters, letters and numbers only</small>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="register-email">📧 Email (optional)</label>
+                            <input type="email" id="register-email" placeholder="your@email.com (optional)">
+                            <small class="email-hint" style="font-size: 0.85em;">Optional - useful for password recovery</small>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="register-password">🔒 Create Password</label>
+                            <input type="password" id="register-password" placeholder="Create a strong password" autocomplete="new-password">
+                            <div class="password-strength">
+                                <div class="strength-bar" id="password-strength-bar"></div>
+                            </div>
+                            <div class="password-requirements" style="font-size: 0.85em;">
+                                <div id="req-length">✓ At least 8 characters</div>
+                                <div id="req-number">✓ Contains a number</div>
+                                <div id="req-letter">✓ Contains a letter</div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="confirm-password">✓ Confirm Password</label>
+                            <input type="password" id="confirm-password" placeholder="Repeat your password" autocomplete="new-password">
+                            <small id="password-match" style="font-size: 0.85em;"></small>
+                        </div>
+                        
+                        <button id="register-btn" class="login-button" style="min-height: 50px;">Create Account & Play! 🎉</button>
+                    </div>
+                    
+                    <button id="guest-btn" class="guest-button" style="min-height: 50px;">Play as Guest 👤</button>
+                    
+                    <div class="login-footer">
+                        <p style="font-size: 0.9em;">Forgot password? <a href="#" id="forgot-password-link" style="color: white; text-decoration: underline;">Click here</a><br>
+                        Just want to play? <a href="index.html" style="color: white; text-decoration: underline;">Browse Games →</a></p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Floating decorative elements - fewer on mobile -->
+            <div class="floating-heart" style="top: 15%; left: 5%; font-size: 18px;">♡</div>
+            <div class="floating-heart" style="top: 10%; right: 5%; font-size: 18px;">☆</div>
+            <div class="floating-heart" style="bottom: 15%; left: 10%; font-size: 18px;">★</div>
+        </main>
+        
+        <footer class="login-footer">
+            <p>© 2026 Games Collection | Created with ❤️ and sparkles! ✨</p>
+        </footer>
+    </div>
+    
+    <script src="auth.js"></script>
+    <script src="login.js"></script>
+    
+    <script>
+        // Additional functionality for password recovery
+        document.addEventListener('DOMContentLoaded', function() {
+            const forgotPasswordLink = document.getElementById('forgot-password-link');
+            
+            if (forgotPasswordLink) {
+                forgotPasswordLink.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const email = prompt('Enter your email address to reset password:');
+                    if (email && email.trim()) {
+                        if (typeof auth !== 'undefined' && auth.requestPasswordReset) {
+                            const result = auth.requestPasswordReset(email.trim());
+                            alert(result.message);
+                            
+                            if (result.success && result.resetToken) {
+                                // For demo purposes only - show the token
+                                console.log('Demo reset token:', result.resetToken);
+                            }
+                        } else {
+                            alert('Password reset functionality not available. Please create a new account.');
+                        }
+                    }
+                });
+            }
+            
+            // System check on load
+            setTimeout(() => {
+                if (typeof auth === 'undefined' || typeof loginUser === 'undefined') {
+                    console.error('Authentication system failed to load properly');
+                    const errorDivs = document.querySelectorAll('.error-message');
+                    errorDivs.forEach(div => {
+                        if (div.textContent === '') {
+                            div.textContent = '⚠️ System loading... Please refresh if login fails.';
+                            div.style.display = 'block';
+                        }
+                    });
+                } else {
+                    console.log('Auth system loaded successfully');
+                }
+            }, 2000);
+            
+            // Handle tab switching for better mobile UX
+            const tabButtons = document.querySelectorAll('.tab-switcher button');
+            const formTabs = document.querySelectorAll('.form-tab');
+            
+            tabButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const tabId = this.getAttribute('data-tab');
+                    
+                    // Update active tab button
+                    tabButtons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Show corresponding form
+                    formTabs.forEach(tab => {
+                        tab.classList.remove('active');
+                        if (tab.id === tabId + '-form') {
+                            tab.classList.add('active');
+                        }
+                    });
+                    
+                    // Scroll to top of form on mobile
+                    if (window.innerWidth <= 768) {
+                        window.scrollTo({
+                            top: document.querySelector('.login-container').offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

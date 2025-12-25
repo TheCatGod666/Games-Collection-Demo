@@ -1,0 +1,446 @@
+/* GYARU VIBE ROCK PAPER SCISSORS STYLES - Ultra Kawaii & Flashy */
+/* This uses the same base styles as your Sudoku, but customized for RPS */
+
+body {
+    font-family: 'Comic Sans MS', 'Arial Rounded MT Bold', 'Marker Felt', 'Trebuchet MS', sans-serif;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background: linear-gradient(45deg, 
+        #ffccff 0%, 
+        #ffff99 15%, 
+        #ff99cc 30%, 
+        #99ccff 45%, 
+        #cc99ff 60%, 
+        #ffcc99 75%, 
+        #ffccff 90%, 
+        #ffff99 100%);
+    background-size: 400% 400%;
+    animation: gyaruGradient 20s ease infinite;
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* Animated Gyaru Gradient */
+@keyframes gyaruGradient {
+    0% { background-position: 0% 0%; }
+    25% { background-position: 100% 0%; }
+    50% { background-position: 100% 100%; }
+    75% { background-position: 0% 100%; }
+    100% { background-position: 0% 0%; }
+}
+
+/* Girly Sparkle Overlay */
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+        radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.3) 2px, transparent 3px),
+        radial-gradient(circle at 60% 70%, rgba(255, 204, 255, 0.4) 3px, transparent 4px),
+        radial-gradient(circle at 40% 80%, rgba(255, 255, 153, 0.3) 2px, transparent 3px),
+        radial-gradient(circle at 80% 20%, rgba(204, 255, 255, 0.4) 3px, transparent 4px);
+    background-size: 200px 200px, 250px 250px, 180px 180px, 220px 220px;
+    z-index: -1;
+    animation: sparkleFloat 30s infinite linear;
+}
+
+@keyframes sparkleFloat {
+    0% { background-position: 0 0, 0 0, 0 0, 0 0; }
+    100% { background-position: 200px 200px, 250px 250px, 180px 180px, 220px 220px; }
+}
+
+/* Decorative Border Elements */
+body::after {
+    content: "✊ ✋ ✌️ ✊ ✋ ✌️ ✊ ✋ ✌️";
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 15px;
+    background: linear-gradient(90deg, #ff3399, #ffcc00, #33ccff, #ff3399);
+    color: white;
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    letter-spacing: 5px;
+    z-index: 100;
+    box-shadow: 0 5px 20px rgba(255, 51, 153, 0.5);
+    animation: borderGlow 3s infinite alternate;
+}
+
+@keyframes borderGlow {
+    0% { opacity: 0.8; }
+    100% { opacity: 1; }
+}
+
+h1 {
+    text-align: center;
+    color: transparent;
+    margin: 50px 0 20px 0;
+    font-size: 4em !important;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    text-shadow: 
+        4px 4px 0 #ffcc00,
+        8px 8px 0 #ff3399,
+        12px 12px 0 #33ccff;
+    background: linear-gradient(45deg, 
+        #ff0066 0%, 
+        #ff9900 25%, 
+        #ffff00 50%, 
+        #00ffcc 75%, 
+        #ff0066 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    animation: titleColorShift 5s infinite linear;
+    position: relative;
+    padding: 20px;
+    background-size: 200% 200%;
+}
+
+@keyframes titleColorShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+h1::after {
+    content: "✧･ﾟ: *✧･ﾟ:* ROCK PAPER SCISSORS *:･ﾟ✧*:･ﾟ✧";
+    position: absolute;
+    top: -25px;
+    left: 0;
+    right: 0;
+    font-size: 0.4em;
+    color: #ff3399;
+    opacity: 0.7;
+    animation: subtitleFloat 4s infinite ease-in-out;
+}
+
+@keyframes subtitleFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+p {
+    text-align: center;
+    color: white;
+    font-size: 1.5em;
+    text-shadow: 2px 2px 0 #ff3399;
+    margin-bottom: 40px;
+    background: linear-gradient(45deg, #ff3399, #ffcc00);
+    padding: 15px;
+    border-radius: 20px;
+    display: inline-block;
+    margin-left: 50%;
+    transform: translateX(-50%);
+    border: 4px solid white;
+}
+
+/* GYARU BUTTONS - Ultra Flashy */
+button {
+    background: linear-gradient(145deg, 
+        #ff3399 0%, 
+        #ff66cc 25%, 
+        #ff99ff 50%, 
+        #ff66cc 75%, 
+        #ff3399 100%);
+    color: white !important;
+    border: 4px solid #ffcc00 !important;
+    padding: 20px 40px !important;
+    font-size: 18px !important;
+    font-weight: 900 !important;
+    border-radius: 50px !important;
+    cursor: pointer !important;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+    text-transform: uppercase !important;
+    letter-spacing: 2px !important;
+    text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.2) !important;
+    box-shadow: 
+        0 10px 20px rgba(255, 51, 153, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.4),
+        inset 0 -3px 0 rgba(0, 0, 0, 0.2) !important;
+    position: relative;
+    overflow: hidden;
+    margin: 10px !important;
+    min-width: 200px;
+}
+
+button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, 
+        transparent, 
+        rgba(255, 255, 255, 0.6), 
+        transparent);
+    transition: 0.6s;
+}
+
+button:hover::before {
+    left: 100%;
+}
+
+button:hover {
+    transform: translateY(-5px) scale(1.08) rotate(-2deg) !important;
+    box-shadow: 
+        0 15px 30px rgba(255, 51, 153, 0.7),
+        inset 0 1px 0 rgba(255, 255, 255, 0.5),
+        inset 0 -3px 0 rgba(0, 0, 0, 0.3) !important;
+    border-color: #ffff00 !important;
+    background: linear-gradient(145deg, 
+        #ff66cc 0%, 
+        #ff99ff 25%, 
+        #ff3399 50%, 
+        #ff99ff 75%, 
+        #ff66cc 100%) !important;
+}
+
+button:active {
+    transform: translateY(2px) scale(0.98) !important;
+    box-shadow: 
+        0 5px 15px rgba(255, 51, 153, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
+}
+
+/* Special Button Styles */
+#new-game {
+    background: linear-gradient(145deg, 
+        #ff9900 0%, 
+        #ffcc00 25%, 
+        #ffff00 50%, 
+        #ffcc00 75%, 
+        #ff9900 100%) !important;
+    border-color: #ffff00 !important;
+}
+
+#reset-score {
+    background: linear-gradient(145deg, 
+        #33ccff 0%, 
+        #66ffff 25%, 
+        #99ffff 50%, 
+        #66ffff 75%, 
+        #33ccff 100%) !important;
+    border-color: #00ffff !important;
+}
+
+/* CONTROLS SECTION */
+#controls {
+    background: rgba(255, 255, 255, 0.95) !important;
+    padding: 30px !important;
+    border-radius: 30px !important;
+    margin: 40px auto !important;
+    border: 6px double #ff66cc !important;
+    box-shadow: 
+        0 15px 35px rgba(255, 102, 204, 0.4),
+        inset 0 0 0 10px #ffffcc,
+        inset 0 0 0 15px #ffccff !important;
+    text-align: center !important;
+    position: relative;
+}
+
+#controls::before {
+    content: "★ GAME CONTROLS ★";
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(90deg, #ff3399, #ffcc00);
+    color: white;
+    padding: 10px 30px;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 1.2em;
+    box-shadow: 0 5px 15px rgba(255, 51, 153, 0.5);
+}
+
+/* FOOTER - Gyaru Style */
+footer {
+    text-align: center !important;
+    margin-top: 60px !important;
+    color: white !important;
+    font-size: 16px !important;
+    font-weight: bold !important;
+    padding: 25px !important;
+    background: linear-gradient(90deg, #ff3399, #ffcc00, #33ccff, #ff3399) !important;
+    border-radius: 25px !important;
+    border: 5px solid white !important;
+    position: relative;
+    overflow: hidden;
+}
+
+footer::before {
+    content: "✊ ✋ ✌️";
+    position: absolute;
+    top: 10px;
+    left: 20px;
+    font-size: 24px;
+    animation: heartFloat 3s infinite ease-in-out;
+}
+
+footer::after {
+    content: "✌️ ✋ ✊";
+    position: absolute;
+    bottom: 10px;
+    right: 20px;
+    font-size: 24px;
+    animation: starFloat 3s infinite ease-in-out reverse;
+}
+
+@keyframes heartFloat {
+    0%, 100% { transform: translateY(0) scale(1); }
+    50% { transform: translateY(-10px) scale(1.2); }
+}
+
+@keyframes starFloat {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(10px) rotate(180deg); }
+}
+
+footer p {
+    color: white !important;
+    margin: 0 !important;
+    text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.2) !important;
+    position: relative;
+    z-index: 1;
+}
+
+/* Decorative Floating Elements */
+.floating-element {
+    position: fixed;
+    pointer-events: none;
+    z-index: -1;
+    animation: floatAround 20s infinite linear;
+    opacity: 0.6;
+}
+
+@keyframes floatAround {
+    0% { transform: translate(0, 0) rotate(0deg); }
+    25% { transform: translate(100px, 100px) rotate(90deg); }
+    50% { transform: translate(50px, 200px) rotate(180deg); }
+    75% { transform: translate(-100px, 100px) rotate(270deg); }
+    100% { transform: translate(0, 0) rotate(360deg); }
+}
+
+/* Success Celebration */
+.confetti {
+    position: fixed;
+    width: 20px;
+    height: 20px;
+    background: #ff3399;
+    top: -50px;
+    z-index: 1000;
+    animation: confettiFall 3s linear forwards;
+    border-radius: 50%;
+}
+
+.confetti:nth-child(odd) {
+    background: #ffcc00;
+}
+
+.confetti:nth-child(even) {
+    background: #33ccff;
+}
+
+@keyframes confettiFall {
+    0% { 
+        transform: translateY(0) rotate(0deg) scale(1);
+        opacity: 1;
+    }
+    100% { 
+        transform: translateY(100vh) rotate(720deg) scale(0);
+        opacity: 0;
+    }
+}
+
+/* RESPONSIVE DESIGN - Gyaru Style */
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+    
+    h1 {
+        font-size: 2.5em !important;
+        margin: 30px 0 20px 0 !important;
+    }
+    
+    p {
+        font-size: 1.2em !important;
+        padding: 10px !important;
+    }
+    
+    button {
+        padding: 15px 25px !important;
+        font-size: 16px !important;
+        margin: 5px !important;
+        min-width: 150px !important;
+    }
+    
+    #game-container {
+        margin: 20px auto !important;
+    }
+    
+    #choices-container {
+        gap: 20px !important;
+    }
+    
+    .choice-btn {
+        width: 140px !important;
+        height: 140px !important;
+    }
+    
+    .choice-btn span:first-child {
+        font-size: 3em !important;
+    }
+    
+    #players-display {
+        flex-direction: column !important;
+        gap: 20px !important;
+    }
+    
+    #vs-display {
+        font-size: 2em !important;
+    }
+    
+    #controls {
+        padding: 20px !important;
+        margin: 20px auto !important;
+    }
+    
+    .floating-element {
+        display: none;
+    }
+}
+
+/* Mobile Optimization */
+@media (max-width: 480px) {
+    h1 {
+        font-size: 2em !important;
+    }
+    
+    p {
+        font-size: 1em !important;
+    }
+    
+    button {
+        min-width: 120px !important;
+        padding: 12px 20px !important;
+        font-size: 14px !important;
+    }
+    
+    .choice-btn {
+        width: 120px !important;
+        height: 120px !important;
+    }
+    
+    .choice-btn span:first-child {
+        font-size: 2.5em !important;
+    }
+}

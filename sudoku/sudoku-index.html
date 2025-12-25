@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Viewport optimization -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+
+    <!-- Mobile web app capabilities -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="mobile-web-app-capable" content="yes">
+
+    <!-- Preload critical mobile resources -->
+    <link rel="stylesheet" href="mobile-optimizations.css">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <title>Sudoku</title>
+    <link rel="stylesheet" href="sudoku-styles.css">
+</head>
+
+<body>
+    <header>
+        <h1>Sudoku Game</h1>
+    </header>
+    <main>
+        <section id="sudoku-board">
+            <!-- Sudoku board will be rendered here -->
+        </section>
+        <section id="controls">
+            <button id="new-game">New Game</button>
+            <button id="check-solution">Check Solution</button>
+            <button id="solve-puzzle">Solve Puzzle</button>
+            <button id="reset-puzzle">Reset Puzzle</button>
+            <button id="hint">Get Hint</button>
+            <button id="toggle-notes">Toggle Notes</button>
+            <button id="change-difficulty">Change Difficulty</button>
+            <button id="undo-move">Undo Move</button>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 Sudoku Inc.</p>
+    </footer>
+    <script src="sudoku-script.js"></script>
+</body>

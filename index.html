@@ -1,0 +1,1019 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <!-- Viewport optimization -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+
+    <!-- Mobile web app capabilities -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="mobile-web-app-capable" content="yes">
+
+    <!-- Preload critical mobile resources -->
+    <link rel="stylesheet" href="mobile-optimizations.css">
+    <title>Games Collection</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="login.css">
+    <style>
+        /* Main page specific mobile-first styles */
+        * {
+            box-sizing: border-box;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+        
+        .main-header {
+            text-align: center;
+            padding: 25px 15px;
+            background: linear-gradient(45deg, rgba(255, 51, 153, 0.1), rgba(255, 204, 0, 0.1));
+            border-radius: 25px;
+            margin: 20px auto;
+            max-width: 100%;
+            border: 4px double #ff66cc;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .main-header::before {
+            content: "★ ☆ ★";
+            position: absolute;
+            top: 8px;
+            left: 0;
+            right: 0;
+            font-size: 18px;
+            color: rgba(255, 51, 153, 0.2);
+            letter-spacing: 8px;
+            animation: sparkle 3s infinite;
+        }
+        
+        @keyframes sparkle {
+            0%, 100% { opacity: 0.2; }
+            50% { opacity: 0.4; }
+        }
+        
+        .game-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            margin: 25px 0;
+            padding: 10px;
+            width: 100%;
+        }
+        
+        .game-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 20px;
+            text-align: center;
+            border: 4px solid;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+        }
+        
+        .game-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+        
+        .game-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 8px;
+            background: linear-gradient(90deg, #ff3399, #ffcc00, #33ccff);
+        }
+        
+        .game-card.sudoku { border-color: #ff3399; }
+        .game-card.rps { border-color: #33ccff; }
+        .game-card.chess { border-color: #9966ff; }
+        .game-card.checkers { border-color: #ffcc00; }
+        
+        .game-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+            display: block;
+        }
+        
+        .game-title {
+            font-size: 1.4em;
+            color: #333;
+            margin-bottom: 12px;
+            font-weight: 900;
+            line-height: 1.2;
+        }
+        
+        .game-description {
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.5;
+            font-size: 0.95em;
+        }
+        
+        .play-button {
+            display: inline-block;
+            background: linear-gradient(45deg, #ff3399, #ff66cc);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 40px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1em;
+            border: 2px solid white;
+            box-shadow: 0 4px 12px rgba(255, 51, 153, 0.3);
+            transition: all 0.3s ease;
+            min-height: 44px;
+            min-width: 44px;
+            touch-action: manipulation;
+        }
+        
+        .play-button:hover {
+            transform: scale(1.08);
+            box-shadow: 0 6px 16px rgba(255, 51, 153, 0.4);
+        }
+        
+        .user-welcome {
+            background: linear-gradient(45deg, rgba(51, 204, 255, 0.1), rgba(102, 255, 255, 0.1));
+            border-radius: 18px;
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 100%;
+            border: 3px solid #33ccff;
+            text-align: center;
+            width: 100%;
+        }
+        
+        .quick-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 12px;
+            margin-top: 15px;
+            width: 100%;
+        }
+        
+        .stat-box {
+            background: white;
+            padding: 12px;
+            border-radius: 12px;
+            border: 2px solid #ffccff;
+            min-height: 70px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .stat-value {
+            font-size: 1.6em;
+            font-weight: 900;
+            color: #ff3399;
+            display: block;
+            line-height: 1.2;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.85em;
+            margin-top: 5px;
+        }
+        
+        .guest-notice {
+            background: linear-gradient(45deg, rgba(255, 153, 0, 0.1), rgba(255, 204, 0, 0.1));
+            border-radius: 18px;
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 100%;
+            border: 3px dashed #ff9900;
+            text-align: center;
+            width: 100%;
+        }
+        
+        .quick-links {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            align-items: center;
+            margin: 25px 0;
+            width: 100%;
+            padding: 0 10px;
+        }
+        
+        .quick-link {
+            background: linear-gradient(45deg, #00cc66, #00ff99);
+            color: white;
+            padding: 14px 20px;
+            border-radius: 40px;
+            text-decoration: none;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+            width: 100%;
+            max-width: 400px;
+            min-height: 44px;
+            touch-action: manipulation;
+        }
+        
+        .quick-link:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0, 204, 102, 0.3);
+        }
+        
+        .feature-section {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            padding: 25px;
+            margin: 30px auto;
+            max-width: 100%;
+            border: 4px double #ffcc00;
+            width: 100%;
+        }
+        
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .feature-item {
+            text-align: center;
+            padding: 15px;
+            min-height: 140px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .feature-icon {
+            font-size: 2.5em;
+            margin-bottom: 12px;
+            display: block;
+        }
+        
+        /* Mobile-specific optimizations */
+        @media (max-width: 768px) {
+            .container {
+                padding-top: 80px !important;
+                padding-left: 15px;
+                padding-right: 15px;
+                max-width: 100%;
+            }
+            
+            .game-grid {
+                grid-template-columns: 1fr;
+                padding: 5px;
+                gap: 15px;
+            }
+            
+            .game-card {
+                padding: 18px;
+            }
+            
+            .quick-links {
+                flex-direction: column;
+            }
+            
+            .quick-link {
+                width: 100%;
+                max-width: 350px;
+            }
+            
+            .feature-section {
+                padding: 18px;
+                margin: 20px 0;
+            }
+            
+            .main-header {
+                padding: 20px 12px;
+                margin: 15px auto;
+            }
+            
+            .game-icon {
+                font-size: 2.5em;
+            }
+            
+            .game-title {
+                font-size: 1.3em;
+            }
+            
+            .feature-icon {
+                font-size: 2em;
+            }
+            
+            h1 {
+                font-size: 2em !important;
+            }
+            
+            h2 {
+                font-size: 1.4em !important;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .game-card {
+                padding: 15px;
+            }
+            
+            .game-icon {
+                font-size: 2.2em;
+            }
+            
+            .game-title {
+                font-size: 1.2em;
+            }
+            
+            .quick-stats {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
+            
+            .stat-value {
+                font-size: 1.4em;
+            }
+            
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .feature-item {
+                padding: 12px;
+            }
+            
+            .play-button {
+                padding: 10px 20px;
+                font-size: 0.95em;
+            }
+        }
+        
+        /* Tablet optimizations */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .game-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 25px;
+            }
+            
+            .feature-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .quick-links {
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .quick-link {
+                flex: 1;
+                min-width: 180px;
+            }
+        }
+        
+        /* Desktop optimizations */
+        @media (min-width: 1025px) {
+            .game-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 30px;
+            }
+            
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+            
+            .quick-links {
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .quick-link {
+                flex: 1;
+                min-width: 200px;
+            }
+        }
+        
+        /* Large mobile/landscape mode */
+        @media (max-height: 500px) and (orientation: landscape) {
+            .container {
+                padding-top: 70px !important;
+            }
+            
+            .main-header {
+                padding: 15px;
+                margin: 10px auto;
+            }
+            
+            .game-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 15px;
+            }
+            
+            .game-card {
+                padding: 15px;
+            }
+            
+            .game-description {
+                font-size: 0.9em;
+                margin-bottom: 15px;
+            }
+        }
+        
+        /* Safe area support for notched phones */
+        @supports (padding: max(0px)) {
+            .container {
+                padding-left: max(15px, env(safe-area-inset-left));
+                padding-right: max(15px, env(safe-area-inset-right));
+                padding-top: max(80px, env(safe-area-inset-top));
+                padding-bottom: max(15px, env(safe-area-inset-bottom));
+            }
+        }
+        
+        /* Navigation Styles for mobile */
+        .global-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(90deg, #ff3399, #ffcc00, #33ccff);
+            padding: 12px 15px;
+            z-index: 10000;
+            border-bottom: 2px solid white;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.2);
+            min-height: 60px;
+        }
+        
+        .nav-container {
+            max-width: 100%;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .nav-brand {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.2em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .nav-icon {
+            font-size: 1.2em;
+        }
+        
+        .nav-user {
+            color: white;
+            font-weight: bold;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 6px 12px;
+            border-radius: 18px;
+            border: 2px solid white;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.9em;
+            max-width: 150px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        
+        .user-icon {
+            font-size: 1em;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+        }
+        
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            padding: 6px 12px;
+            border-radius: 18px;
+            border: 2px solid white;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.1);
+            font-size: 0.9em;
+            min-height: 36px;
+            min-width: 36px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            touch-action: manipulation;
+        }
+        
+        .nav-link:hover,
+        .nav-link.active {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        .nav-button {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid white;
+            padding: 6px 12px;
+            border-radius: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9em;
+            min-height: 36px;
+            min-width: 36px;
+            touch-action: manipulation;
+        }
+        
+        .nav-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                gap: 12px;
+                text-align: center;
+            }
+            
+            .nav-links {
+                justify-content: center;
+                width: 100%;
+                gap: 6px;
+            }
+            
+            .nav-link, .nav-button {
+                padding: 6px 10px;
+                font-size: 0.85em;
+            }
+            
+            .nav-user {
+                max-width: 200px;
+                margin: 0 auto;
+            }
+            
+            .container {
+                padding-top: 120px !important;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .global-nav {
+                padding: 10px 12px;
+            }
+            
+            .nav-brand {
+                font-size: 1.1em;
+            }
+            
+            .nav-links {
+                gap: 5px;
+            }
+            
+            .nav-link, .nav-button {
+                padding: 5px 8px;
+                font-size: 0.8em;
+            }
+            
+            .container {
+                padding-top: 130px !important;
+            }
+        }
+        
+        /* Footer styles */
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 25px 15px;
+            color: #666;
+            border-top: 2px dashed #ffccff;
+            font-size: 0.9em;
+            width: 100%;
+        }
+        
+        footer a {
+            color: #33ccff;
+            text-decoration: none;
+            margin: 0 8px;
+            font-size: 0.9em;
+            display: inline-block;
+            min-height: 44px;
+            line-height: 44px;
+        }
+        
+        footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Mobile-optimized Navigation Bar -->
+    <nav class="global-nav">
+        <div class="nav-container">
+            <a href="index.html" class="nav-brand">
+                <span class="nav-icon">🎮</span>
+                Games Collection
+            </a>
+            
+            <div class="nav-user" id="nav-user">
+                <span class="user-icon">👤</span>
+                <span class="username" id="nav-username">Loading...</span>
+            </div>
+            
+            <div class="nav-links">
+                <a href="index.html" class="nav-link active">🏠 Home</a>
+                <a href="profile.html" class="nav-link">👤 Profile</a>
+                <a href="leaderboard.html" class="nav-link">🏆 Leaderboard</a>
+                <a href="test-system.html" class="nav-link">🛠️ Test</a>
+                <a href="README.html" class="nav-link">📖 Guide</a>
+                <button id="nav-login" class="nav-button">🔐 Login</button>
+                <button id="nav-logout" class="nav-button" style="display: none;">🚪 Logout</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container" style="padding-top: 100px;">
+        <!-- Main Header -->
+        <div class="main-header">
+            <h1 style="font-size: 2.2em; margin-bottom: 10px;">🎮 Games Collection</h1>
+            <p class="subtitle" style="font-size: 1em; max-width: 100%;">Classic games with a colorful twist! Play, compete, and track your progress.</p>
+        </div>
+
+        <!-- User Welcome/Stats Section -->
+        <div id="user-welcome" class="user-welcome" style="display: none;">
+            <h2 style="font-size: 1.4em; margin-bottom: 10px;">Welcome back, <span id="welcome-username">User</span>! 👋</h2>
+            <p style="margin-bottom: 10px;">Your gaming journey continues...</p>
+            <div class="quick-stats" id="quick-stats">
+                <!-- Stats will be populated by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Guest Notice -->
+        <div id="guest-notice" class="guest-notice" style="display: none;">
+            <h2 style="font-size: 1.4em; margin-bottom: 10px;">🎯 Playing as Guest</h2>
+            <p style="margin-bottom: 15px;">Create a free account to save your scores permanently, earn achievements, and climb the leaderboards!</p>
+            <a href="login.html" class="play-button" style="background: linear-gradient(45deg, #33ccff, #66ffff); margin-top: 10px;">
+                ✨ Create Account
+            </a>
+        </div>
+
+        <!-- Games Grid -->
+        <h2 style="text-align: center; color: #ff3399; margin: 30px 0 20px 0; font-size: 1.5em;">🎲 Available Games</h2>
+        
+        <div class="game-grid">
+            <!-- Sudoku -->
+            <div class="game-card sudoku">
+                <span class="game-icon">🔢</span>
+                <h3 class="game-title">Sudoku</h3>
+                <p class="game-description">
+                    Classic number puzzle with multiple difficulty levels. Track your best completion times!
+                </p>
+                <div class="quick-stats">
+                    <div class="stat-box">
+                        <span class="stat-value" id="sudoku-wins">0</span>
+                        <span class="stat-label">Wins</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-value" id="sudoku-games">0</span>
+                        <span class="stat-label">Games</span>
+                    </div>
+                </div>
+                <a href="sudoku/sudoku-index.html" class="play-button">Play Sudoku</a>
+            </div>
+
+            <!-- Rock Paper Scissors -->
+            <div class="game-card rps">
+                <span class="game-icon">✊✋✌️</span>
+                <h3 class="game-title">Rock Paper Scissors</h3>
+                <p class="game-description">
+                    Test your luck and strategy against the computer! Build win streaks and master prediction.
+                </p>
+                <div class="quick-stats">
+                    <div class="stat-box">
+                        <span class="stat-value" id="rps-wins">0</span>
+                        <span class="stat-label">Wins</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-value" id="rps-streak">0</span>
+                        <span class="stat-label">Best Streak</span>
+                    </div>
+                </div>
+                <a href="rock-paper-scissors/rps-index.html" class="play-button">Play RPS</a>
+            </div>
+
+            <!-- Chess -->
+            <div class="game-card chess">
+                <span class="game-icon">♟️</span>
+                <h3 class="game-title">Chess</h3>
+                <p class="game-description">
+                    The ultimate game of strategy and skill. Challenge the AI, learn tactics, track victories!
+                </p>
+                <div class="quick-stats">
+                    <div class="stat-box">
+                        <span class="stat-value" id="chess-wins">0</span>
+                        <span class="stat-label">Wins</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-value" id="chess-captures">0</span>
+                        <span class="stat-label">Captures</span>
+                    </div>
+                </div>
+                <a href="chess/chess-index.html" class="play-button">Play Chess</a>
+            </div>
+
+            <!-- Checkers -->
+            <div class="game-card checkers">
+                <span class="game-icon">⛀</span>
+                <h3 class="game-title">Checkers</h3>
+                <p class="game-description">
+                    Classic checkers with complete rules. Become a king-maker and capture your way to victory!
+                </p>
+                <div class="quick-stats">
+                    <div class="stat-box">
+                        <span class="stat-value" id="checkers-wins">0</span>
+                        <span class="stat-label">Wins</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-value" id="checkers-captures">0</span>
+                        <span class="stat-label">Captures</span>
+                    </div>
+                </div>
+                <a href="checkers/checkers-index.html" class="play-button">Play Checkers</a>
+            </div>
+        </div>
+
+        <!-- Quick Links -->
+        <div class="quick-links">
+            <a href="profile.html" class="quick-link">
+                <span>👤</span>
+                My Profile
+            </a>
+            <a href="leaderboard.html" class="quick-link">
+                <span>🏆</span>
+                Leaderboards
+            </a>
+            <a href="test-system.html" class="quick-link">
+                <span>🛠️</span>
+                System Test
+            </a>
+            <a href="README.html" class="quick-link">
+                <span>📖</span>
+                User Guide
+            </a>
+        </div>
+
+        <!-- Features Section -->
+        <div class="feature-section">
+            <h2 style="text-align: center; color: #ff3399; margin-bottom: 20px; font-size: 1.5em;">✨ Features</h2>
+            <div class="feature-grid">
+                <div class="feature-item">
+                    <span class="feature-icon">📊</span>
+                    <h3 style="font-size: 1.1em; margin-bottom: 5px;">Track Progress</h3>
+                    <p style="font-size: 0.9em;">Detailed statistics for every game you play</p>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">🏆</span>
+                    <h3 style="font-size: 1.1em; margin-bottom: 5px;">Earn Achievements</h3>
+                    <p style="font-size: 0.9em;">Unlock achievements by completing challenges</p>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">👑</span>
+                    <h3 style="font-size: 1.1em; margin-bottom: 5px;">Compete Globally</h3>
+                    <p style="font-size: 0.9em;">Climb the leaderboards and prove your skills</p>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">🎨</span>
+                    <h3 style="font-size: 1.1em; margin-bottom: 5px;">Style</h3>
+                    <p style="font-size: 0.9em;">Colorful, vibrant interface with animations</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer>
+            <p>© 2026 Games Collection | Created with ❤️ and sparkles! ✨</p>
+            <p style="margin-top: 10px;">
+                <a href="README.html">User Guide</a> |
+                <a href="test-system.html">System Test</a> |
+                <a href="login.html">Login</a>
+            </p>
+        </footer>
+    </div>
+
+    <!-- Scripts -->
+    <script src="auth.js"></script>
+    <script src="game-scores.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize navigation
+            updateNavigation();
+            
+            // Load user data and stats
+            loadUserData();
+            
+            // Setup navigation event listeners
+            setupNavigation();
+        });
+        
+        function updateNavigation() {
+            const currentUser = getCurrentSession();
+            const navUser = document.getElementById('nav-username');
+            const navLogin = document.getElementById('nav-login');
+            const navLogout = document.getElementById('nav-logout');
+            
+            if (currentUser) {
+                // Update user display
+                navUser.textContent = currentUser.username + (currentUser.isGuest ? ' (G)' : '');
+                
+                // Show/hide buttons
+                navLogin.style.display = 'none';
+                navLogout.style.display = 'block';
+                
+                // Update welcome section
+                document.getElementById('welcome-username').textContent = currentUser.username;
+                document.getElementById('user-welcome').style.display = 'block';
+                document.getElementById('guest-notice').style.display = currentUser.isGuest ? 'block' : 'none';
+                
+            } else {
+                // No user logged in
+                navUser.textContent = 'Guest';
+                navLogin.style.display = 'block';
+                navLogout.style.display = 'none';
+                
+                document.getElementById('user-welcome').style.display = 'none';
+                document.getElementById('guest-notice').style.display = 'block';
+            }
+        }
+        
+        function loadUserData() {
+            const currentUser = getCurrentSession();
+            
+            if (!currentUser) {
+                // Show default values for guests/non-logged in users
+                updateGameStats({});
+                return;
+            }
+            
+            // Get all scores
+            const scores = getAllScores();
+            
+            // Update game stats
+            updateGameStats(scores);
+            
+            // Update quick stats in welcome section
+            if (!currentUser.isGuest) {
+                updateQuickStats(scores);
+            }
+        }
+        
+        function updateGameStats(scores) {
+            // Sudoku
+            document.getElementById('sudoku-wins').textContent = scores.sudoku?.totalWins || 0;
+            document.getElementById('sudoku-games').textContent = scores.sudoku?.totalGames || 0;
+            
+            // RPS
+            document.getElementById('rps-wins').textContent = scores.rps?.wins || 0;
+            document.getElementById('rps-streak').textContent = scores.rps?.bestStreak || 0;
+            
+            // Chess
+            document.getElementById('chess-wins').textContent = scores.chess?.wins || 0;
+            document.getElementById('chess-captures').textContent = scores.chess?.captures || 0;
+            
+            // Checkers
+            document.getElementById('checkers-wins').textContent = scores.checkers?.wins || 0;
+            document.getElementById('checkers-captures').textContent = scores.checkers?.totalCaptures || 0;
+        }
+        
+        function updateQuickStats(scores) {
+            const container = document.getElementById('quick-stats');
+            if (!container) return;
+            
+            // Calculate totals
+            const totalGames = (
+                (scores.sudoku?.totalGames || 0) +
+                (scores.rps?.totalGames || 0) +
+                (scores.chess?.gamesPlayed || 0) +
+                (scores.checkers?.gamesPlayed || 0)
+            );
+            
+            const totalWins = (
+                (scores.sudoku?.totalWins || 0) +
+                (scores.rps?.wins || 0) +
+                (scores.chess?.wins || 0) +
+                (scores.checkers?.wins || 0)
+            );
+            
+            const winRate = totalGames > 0 ? Math.round((totalWins / totalGames) * 100) : 0;
+            
+            container.innerHTML = `
+                <div class="stat-box">
+                    <span class="stat-value">${totalGames}</span>
+                    <span class="stat-label">Total Games</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-value">${totalWins}</span>
+                    <span class="stat-label">Total Wins</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-value">${winRate}%</span>
+                    <span class="stat-label">Win Rate</span>
+                </div>
+            `;
+        }
+        
+        function setupNavigation() {
+            // Login button
+            document.getElementById('nav-login').addEventListener('click', function() {
+                window.location.href = 'login.html';
+            });
+            
+            // Logout button
+            document.getElementById('nav-logout').addEventListener('click', function() {
+                if (confirm('Are you sure you want to logout?')) {
+                    logoutUser();
+                    window.location.reload();
+                }
+            });
+            
+            // Mobile refresh button (smaller)
+            const refreshBtn = document.createElement('button');
+            refreshBtn.innerHTML = '🔄';
+            refreshBtn.title = 'Refresh Stats';
+            refreshBtn.style.cssText = `
+                position: fixed;
+                bottom: 15px;
+                right: 15px;
+                background: linear-gradient(45deg, #9966ff, #cc99ff);
+                color: white;
+                border: none;
+                width: 44px;
+                height: 44px;
+                border-radius: 50%;
+                cursor: pointer;
+                z-index: 9998;
+                box-shadow: 0 2px 8px rgba(153, 102, 255, 0.3);
+                font-size: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                touch-action: manipulation;
+                min-width: 44px;
+                min-height: 44px;
+            `;
+            refreshBtn.addEventListener('click', function() {
+                loadUserData();
+                updateNavigation();
+                
+                // Show feedback
+                const feedback = document.createElement('div');
+                feedback.textContent = 'Stats refreshed!';
+                feedback.style.cssText = `
+                    position: fixed;
+                    bottom: 65px;
+                    right: 15px;
+                    background: #00cc66;
+                    color: white;
+                    padding: 8px 12px;
+                    border-radius: 8px;
+                    z-index: 9999;
+                    animation: fadeOut 2s ease forwards;
+                    font-size: 0.9em;
+                    max-width: 200px;
+                    word-wrap: break-word;
+                `;
+                document.body.appendChild(feedback);
+                
+                setTimeout(() => feedback.remove(), 2000);
+            });
+            document.body.appendChild(refreshBtn);
+        }
+        
+        // Auto-refresh stats every 30 seconds
+        setInterval(loadUserData, 30000);
+        
+        // Auto-update navigation every 10 seconds
+        setInterval(updateNavigation, 10000);
+    </script>
+</body>
+</html>

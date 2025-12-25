@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <!-- Viewport optimization -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+
+    <!-- Mobile web app capabilities -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="mobile-web-app-capable" content="yes">
+
+    <!-- Preload critical mobile resources -->
+    <link rel="stylesheet" href="mobile-optimizations.css">
+    <title> Leaderboards - Games Collection</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="login.css">
+    <style>
+        /* Mobile-first leaderboard styles */
+        * {
+            box-sizing: border-box;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+        
+        .leaderboard-container {
+            width: 100%;
+            margin: 60px auto 20px;
+            padding: 15px;
+            max-width: 1000px;
+        }
+        
+        .leaderboard-header {
+            text-align: center;
+            padding: 20px 15px;
+            background: linear-gradient(45deg, rgba(255, 51, 153, 0.1), rgba(255, 204, 0, 0.1));
+            border-radius: 20px;
+            margin-bottom: 25px;
+            border: 4px double #ff66cc;
+        }
+        
+        .leaderboard-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 8px;
+            margin: 20px 0;
+            padding: 0 5px;
+        }
+        
+        .leaderboard-tab {
+            background: linear-gradient(45deg, #ffccff, #ffffcc);
+            border: 2px solid #ff66cc;
+            padding: 10px 15px;
+            border-radius: 20px;
+            color: #ff3399;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9em;
+            min-height: 40px;
+            min-width: 44px;
+            flex: 1 1 auto;
+            max-width: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            touch-action: manipulation;
+        }
+        
+        .leaderboard-tab.active {
+            background: linear-gradient(45deg, #ff3399, #ffcc00);
+            color: white;
+            border-color: white;
+            transform: translateY(-2px);
+        }
+        
+        .leaderboard-tab:hover:not(.active) {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 102, 204, 0.3);
+        }
+        
+        .leaderboard {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 18px;
+            padding: 20px;
+            border: 4px double #ff66cc;
+            margin: 15px 0;
+            box-shadow: 0 6px 20px rgba(255, 102, 204, 0.1);
+            width: 100%;
+        }
+        
+        .leaderboard-row {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            border-bottom: 2px dashed #ffccff;
+            transition: background 0.3s ease;
+            flex-wrap: wrap;
+        }
+        
+        .leaderboard-row:hover {
+            background: rgba(255, 204, 255, 0.1);
+        }
+        
+        .rank {
+            font-size: 1.3em;
+            font-weight: bold;
+            width: 45px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+        
+        .rank-1 { color: gold; }
+        .rank-2 { color: silver; }
+        .rank-3 { color: #cd7f32; }
+        
+        .player-info {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-width: 0;
+            overflow: hidden;
+        }
+        
+        .player-score {
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #3366ff;
+            margin-left: auto;
+            flex-shrink: 0;
+        }
+        
+        .player-avatar {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(45deg, #ff3399, #ffcc00);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+        
+        .current-user-highlight {
+            background: linear-gradient(45deg, rgba(51, 204, 255, 0.1), rgba(102, 255, 255, 0.1));
+            border-radius: 12px;
+            border: 2px solid #33ccff;
+        }
+        
+        .loading {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            border: 4px solid #ffccff;
+            border-radius: 50%;
+            border-top-color: #ff3399;
+            animation: spin 1s ease-in-out infinite;
+            margin: 15px auto;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 40px 15px;
+            color: #999;
+            width: 100%;
+        }
+        
+        .empty-state-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+            opacity: 0.3;
+        }
+        
+        .back-button {
+            display: inline-block;
+            background: linear-gradient(45deg, #33ccff, #66ffff);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: bold;
+            border: 2px solid white;
+            margin: 15px 0;
+            transition: all 0.3s ease;
+            font-size: 0.9em;
+            min-height: 44px;
+            min-width: 44px;
+            touch-action: manipulation;
+        }
+        
+        .back-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(51, 204, 255, 0.3);
+        }
+        
+        /* Mobile optimizations */
+        @media (max-width: 768px) {
+            .leaderboard-container {
+                margin-top: 80px;
+                padding: 10px;
+            }
+            
+            .leaderboard-tabs {
+                gap: 6px;
+            }
+            
+            .leaderboard-tab {
+                padding: 8px 10px;
+                font-size: 0.85em;
+                max-width: 120px;
+            }
+            
+            .leaderboard-row {
+                flex-direction: row;
+                align-items: center;
+                padding: 15px 10px;
+                flex-wrap: nowrap;
+            }
+            
+            .player-info {
+                width: auto;
+                flex: 1;
+                overflow: hidden;
+            }
+            
+            .player-score {
+                margin-left: 10px;
+                font-size: 1em;
+            }
+            
+            h1 {
+                font-size: 1.8em !important;
+            }
+            
+            .subtitle {
+                font-size: 1em !important;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .leaderboard-container {
+                margin-top: 90px;
+                padding: 8px;
+            }
+            
+            .leaderboard-header {
+                padding: 15px 10px;
+            }
+            
+            .leaderboard-tab {
+                padding: 6px 8px;
+                font-size: 0.8em;
+                max-width: 100px;
+                min-height: 36px;
+            }
+            
+            .leaderboard {
+                padding: 15px;
+            }
+            
+            .leaderboard-row {
+                padding: 10px 8px;
+                flex-wrap: wrap;
+            }
+            
+            .rank {
+                width: 35px;
+                font-size: 1.1em;
+            }
+            
+            .player-avatar {
+                width: 35px;
+                height: 35px;
+                font-size: 18px;
+            }
+            
+            .player-info > div {
+                min-width: 0;
+            }
+            
+            .player-info > div > div:first-child {
+                font-size: 0.9em;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+            
+            .player-info > div > div:last-child {
+                font-size: 0.8em;
+            }
+        }
+        
+        /* Tablet optimizations */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .leaderboard-container {
+                padding: 20px;
+            }
+            
+            .leaderboard-tabs {
+                gap: 10px;
+            }
+            
+            .leaderboard-tab {
+                min-width: 100px;
+            }
+        }
+        
+        /* Large mobile/landscape mode */
+        @media (max-height: 500px) and (orientation: landscape) {
+            .leaderboard-container {
+                margin-top: 70px;
+                padding: 10px;
+            }
+            
+            .leaderboard-header {
+                padding: 15px;
+                margin-bottom: 15px;
+            }
+            
+            .leaderboard-tabs {
+                margin: 15px 0;
+            }
+            
+            .leaderboard-tab {
+                padding: 6px 10px;
+                min-height: 36px;
+            }
+            
+            .leaderboard-row {
+                padding: 8px 10px;
+            }
+            
+            .player-avatar {
+                width: 30px;
+                height: 30px;
+                font-size: 16px;
+            }
+        }
+        
+        /* Safe area support for notched phones */
+        @supports (padding: max(0px)) {
+            .leaderboard-container {
+                padding-left: max(15px, env(safe-area-inset-left));
+                padding-right: max(15px, env(safe-area-inset-right));
+                padding-top: max(70px, env(safe-area-inset-top));
+                padding-bottom: max(15px, env(safe-area-inset-bottom));
+            }
+        }
+        
+        /* Navigation Styles */
+        .global-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(90deg, #ff3399, #ffcc00, #33ccff);
+            padding: 12px 15px;
+            z-index: 10000;
+            border-bottom: 2px solid white;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.2);
+            min-height: 60px;
+        }
+        
+        .nav-container {
+            max-width: 100%;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .nav-brand {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.2em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .nav-icon {
+            font-size: 1.2em;
+        }
+        
+        .nav-user {
+            color: white;
+            font-weight: bold;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 6px 12px;
+            border-radius: 18px;
+            border: 2px solid white;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.9em;
+            max-width: 150px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        
+        .user-icon {
+            font-size: 1em;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+        }
+        
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            padding: 6px 12px;
+            border-radius: 18px;
+            border: 2px solid white;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.1);
+            font-size: 0.9em;
+            min-height: 36px;
+            min-width: 36px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            touch-action: manipulation;
+        }
+        
+        .nav-link:hover,
+        .nav-link.active {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        .nav-button {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid white;
+            padding: 6px 12px;
+            border-radius: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9em;
+            min-height: 36px;
+            min-width: 36px;
+            touch-action: manipulation;
+        }
+        
+        .nav-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                gap: 12px;
+                text-align: center;
+            }
+            
+            .nav-links {
+                justify-content: center;
+                width: 100%;
+                gap: 6px;
+            }
+            
+            .nav-link, .nav-button {
+                padding: 6px 10px;
+                font-size: 0.85em;
+            }
+            
+            .nav-user {
+                max-width: 200px;
+                margin: 0 auto;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .global-nav {
+                padding: 10px 12px;
+            }
+            
+            .nav-brand {
+                font-size: 1.1em;
+            }
+            
+            .nav-links {
+                gap: 5px;
+            }
+            
+            .nav-link, .nav-button {
+                padding: 5px 8px;
+                font-size: 0.8em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Mobile-optimized Navigation Bar -->
+    <nav class="global-nav">
+        <div class="nav-container">
+            <a href="../index.html" class="nav-brand">
+                <span class="nav-icon">🎮</span>
+                Games Collection
+            </a>
+            
+            <div class="nav-user" id="nav-user">
+                <span class="user-icon">👤</span>
+                <span class="username" id="nav-username">Loading...</span>
+            </div>
+            
+            <div class="nav-links">
+                <a href="../index.html" class="nav-link">🏠 Home</a>
+                <a href="../profile.html" class="nav-link">👤 Profile</a>
+                <a href="../leaderboard.html" class="nav-link active">🏆 Leaderboard</a>
+                <a href="../test-system.html" class="nav-link">🛠️ Test</a>
+                <a href="../README.html" class="nav-link">📖 Guide</a>
+                <button id="nav-login" class="nav-button">🔐 Login</button>
+                <button id="nav-logout" class="nav-button" style="display: none;">🚪 Logout</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="leaderboard-container">
+        <div class="leaderboard-header">
+            <h1 style="font-size: 2em; margin-bottom: 10px;">🏆 Leaderboards</h1>
+            <p class="subtitle" style="font-size: 1em; margin-bottom: 15px;">See how you rank against other players!</p>
+            
+            <a href="index.html" class="back-button">← Back to Games</a>
+        </div>
+        
+        <div class="leaderboard-tabs">
+            <div class="leaderboard-tab active" data-game="overall">Overall</div>
+            <div class="leaderboard-tab" data-game="sudoku">Sudoku</div>
+            <div class="leaderboard-tab" data-game="rps">RPS</div>
+            <div class="leaderboard-tab" data-game="chess">Chess</div>
+            <div class="leaderboard-tab" data-game="checkers">Checkers</div>
+        </div>
+        
+        <div id="leaderboard-content">
+            <div class="leaderboard">
+                <h3 style="text-align: center; color: #ff3399; margin-bottom: 15px; font-size: 1.2em;">Loading leaderboards...</h3>
+                <div class="loading"></div>
+                <p style="text-align: center; font-size: 0.9em;">Please wait while we load the rankings.</p>
+            </div>
+        </div>
+    </div>
+    
+    <script src="../auth.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize navigation
+            updateNavigation();
+            
+            // Setup tab switching
+            setupTabs();
+            
+            // Load overall leaderboard by default
+            loadLeaderboard('overall');
+            
+            // Setup navigation buttons
+            setupNavButtons();
+        });
+        
+        function updateNavigation() {
+            const currentUser = getCurrentSession();
+            const navUser = document.getElementById('nav-username');
+            const navLogin = document.getElementById('nav-login');
+            const navLogout = document.getElementById('nav-logout');
+            
+            if (currentUser) {
+                navUser.textContent = currentUser.username + (currentUser.isGuest ? ' (G)' : '');
+                navLogin.style.display = 'none';
+                navLogout.style.display = 'block';
+            } else {
+                navUser.textContent = 'Guest';
+                navLogin.style.display = 'block';
+                navLogout.style.display = 'none';
+            }
+        }
+        
+        function setupNavButtons() {
+            document.getElementById('nav-login').addEventListener('click', function() {
+                window.location.href = '../login.html';
+            });
+            
+            document.getElementById('nav-logout').addEventListener('click', function() {
+                if (confirm('Are you sure you want to logout?')) {
+                    logoutUser();
+                    window.location.reload();
+                }
+            });
+        }
+        
+        function setupTabs() {
+            const tabs = document.querySelectorAll('.leaderboard-tab');
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    // Update active tab
+                    tabs.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Load leaderboard for selected game
+                    const game = this.getAttribute('data-game');
+                    loadLeaderboard(game);
+                    
+                    // Scroll to top on mobile
+                    if (window.innerWidth <= 768) {
+                        window.scrollTo({
+                            top: document.querySelector('.leaderboard-container').offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+        }
+        
+        function loadLeaderboard(game) {
+            const content = document.getElementById('leaderboard-content');
+            content.innerHTML = `
+                <div class="leaderboard">
+                    <h3 style="text-align: center; color: #ff3399; margin-bottom: 15px;">Loading ${getGameTitle(game)} leaderboard...</h3>
+                    <div class="loading"></div>
+                </div>
+            `;
+            
+            // Simulate loading (in a real app, fetch from server)
+            setTimeout(() => {
+                displayLeaderboard(game);
+            }, 500);
+        }
+        
+        function displayLeaderboard(game) {
+            const content = document.getElementById('leaderboard-content');
+            const currentUser = getCurrentSession();
+            
+            // Get users from localStorage
+            const users = JSON.parse(localStorage.getItem('gyaruGamesUsers')) || [];
+            
+            // Calculate scores for each user
+            const rankedUsers = users.map(user => {
+                let score = 0;
+                
+                switch(game) {
+                    case 'sudoku':
+                        score = (user.scores?.sudoku?.totalWins || 0) * 10 + 
+                               (user.scores?.sudoku?.totalGames || 0);
+                        break;
+                    case 'rps':
+                        score = (user.scores?.rps?.wins || 0) * 5 + 
+                               (user.scores?.rps?.bestStreak || 0) * 2;
+                        break;
+                    case 'chess':
+                        score = (user.scores?.chess?.wins || 0) * 10 + 
+                               (user.scores?.chess?.draws || 0) * 3 +
+                               (user.scores?.chess?.captures || 0);
+                        break;
+                    case 'checkers':
+                        score = (user.scores?.checkers?.wins || 0) * 10 + 
+                               (user.scores?.checkers?.totalCaptures || 0);
+                        break;
+                    case 'overall':
+                    default:
+                        score = 
+                            (user.scores?.sudoku?.totalWins || 0) * 10 +
+                            (user.scores?.rps?.wins || 0) * 5 +
+                            (user.scores?.chess?.wins || 0) * 10 +
+                            (user.scores?.checkers?.wins || 0) * 10;
+                        break;
+                }
+                
+                return {
+                    username: user.username,
+                    score: score,
+                    avatar: '👤',
+                    details: user.scores?.[game] || {},
+                    isCurrentUser: currentUser && !currentUser.isGuest && user.username === currentUser.username
+                };
+            });
+            
+            // Sort by score (descending)
+            rankedUsers.sort((a, b) => b.score - a.score);
+            
+            // Display leaderboard
+            let leaderboardHTML = '<div class="leaderboard">';
+            leaderboardHTML += `<h3 style="text-align: center; color: #ff3399; margin-bottom: 20px; font-size: 1.3em;">${getGameTitle(game)} Leaderboard</h3>`;
+            
+            if (rankedUsers.length === 0) {
+                leaderboardHTML += `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">🏆</div>
+                        <p>No players yet!</p>
+                        <p style="font-size: 0.9em;">Be the first to play and top the leaderboard!</p>
+                    </div>
+                `;
+            } else {
+                // Show current user's rank if logged in
+                if (currentUser && !currentUser.isGuest) {
+                    const userRank = rankedUsers.findIndex(u => u.username === currentUser.username) + 1;
+                    if (userRank > 0) {
+                        leaderboardHTML += `
+                            <div class="current-user-highlight" style="padding: 12px; margin: 15px 0; border-radius: 12px;">
+                                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+                                    <div style="font-weight: bold; margin-right: 10px;">
+                                        Your Rank: #${userRank}
+                                        <span style="color: #33ccff; margin-left: 5px;">★</span>
+                                    </div>
+                                    <div style="font-weight: bold;">
+                                        Score: ${rankedUsers[userRank-1].score} pts
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    }
+                }
+                
+                // Show top 10 players (show fewer on mobile)
+                const showCount = window.innerWidth <= 480 ? 8 : 10;
+                rankedUsers.slice(0, showCount).forEach((user, index) => {
+                    const rank = index + 1;
+                    const rowClass = user.isCurrentUser ? 'leaderboard-row current-user-highlight' : 'leaderboard-row';
+                    
+                    leaderboardHTML += `
+                        <div class="${rowClass}">
+                            <div class="rank rank-${rank}">#${rank}</div>
+                            <div class="player-info">
+                                <div class="player-avatar">${user.avatar}</div>
+                                <div style="min-width: 0; flex: 1;">
+                                    <div style="font-weight: bold; color: #333; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${user.username}</div>
+                                    <div style="color: #666; font-size: 0.85em;">
+                                        ${getGameStats(game, user.details)}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="player-score">${user.score} pts</div>
+                        </div>
+                    `;
+                });
+                
+                // Show "more players" message if there are more
+                if (rankedUsers.length > showCount) {
+                    leaderboardHTML += `
+                        <div style="text-align: center; padding: 15px; color: #999; font-style: italic; font-size: 0.9em;">
+                            ... and ${rankedUsers.length - showCount} more players
+                        </div>
+                    `;
+                }
+            }
+            
+            leaderboardHTML += '</div>';
+            content.innerHTML = leaderboardHTML;
+        }
+        
+        function getGameTitle(game) {
+            switch(game) {
+                case 'sudoku': return 'Sudoku';
+                case 'rps': return 'Rock Paper Scissors';
+                case 'chess': return 'Chess';
+                case 'checkers': return 'Checkers';
+                default: return 'Overall';
+            }
+        }
+        
+        function getGameStats(game, details) {
+            if (!details) return '';
+            
+            switch(game) {
+                case 'sudoku':
+                    return `${details.totalWins || 0} wins • ${details.totalGames || 0} games`;
+                case 'rps':
+                    return `${details.wins || 0} wins • ${details.bestStreak || 0} best streak`;
+                case 'chess':
+                    return `${details.wins || 0} wins • ${details.captures || 0} captures`;
+                case 'checkers':
+                    return `${details.wins || 0} wins • ${details.totalCaptures || 0} captures`;
+                default:
+                    return '';
+            }
+        }
+        
+        // Auto-update navigation periodically
+        setInterval(updateNavigation, 5000);
+    </script>
+</body>
+</html>

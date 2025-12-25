@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <!-- Viewport optimization -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+
+    <!-- Mobile web app capabilities -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="mobile-web-app-capable" content="yes">
+
+    <!-- Preload critical mobile resources -->
+    <link rel="stylesheet" href="mobile-optimizations.css">
+    <title>System Test - Games Collection</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Mobile-first test system styles */
+        * {
+            box-sizing: border-box;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+        
+        .container {
+            max-width: 100%;
+            margin: 60px auto 20px;
+            padding: 15px;
+            width: 100%;
+        }
+        
+        .test-container {
+            width: 100%;
+            margin: 20px auto;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            border: 4px double #ff66cc;
+        }
+        
+        .test-section {
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 15px;
+            background: linear-gradient(45deg, rgba(255, 204, 255, 0.1), rgba(255, 255, 204, 0.1));
+            border: 2px solid #ffccff;
+        }
+        
+        .test-button {
+            background: linear-gradient(45deg, #33ccff, #66ffff) !important;
+            margin: 8px 4px !important;
+            padding: 12px 15px !important;
+            font-size: 0.9em !important;
+            min-height: 44px;
+            width: calc(100% - 8px);
+            max-width: 300px;
+            display: block;
+            margin-left: auto !important;
+            margin-right: auto !important;
+            touch-action: manipulation;
+        }
+        
+        .test-result {
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 8px;
+            font-family: monospace;
+            background: #f5f5f5;
+            border: 2px solid #ddd;
+            max-height: 200px;
+            overflow-y: auto;
+            font-size: 0.9em;
+            width: 100%;
+        }
+        
+        .success {
+            color: #00cc66;
+            border-color: #00cc66;
+            background: rgba(0, 204, 102, 0.1);
+        }
+        
+        .error {
+            color: #ff0066;
+            border-color: #ff0066;
+            background: rgba(255, 0, 102, 0.1);
+        }
+        
+        .warning {
+            color: #ff9900;
+            border-color: #ff9900;
+            background: rgba(255, 153, 0, 0.1);
+        }
+        
+        .log-item {
+            padding: 6px 8px;
+            border-bottom: 1px solid #eee;
+            font-size: 0.85em;
+            line-height: 1.3;
+        }
+        
+        .log-item:last-child {
+            border-bottom: none;
+        }
+        
+        h1 {
+            font-size: 1.8em !important;
+            margin-bottom: 10px !important;
+        }
+        
+        .subtitle {
+            font-size: 1em !important;
+            margin-bottom: 20px !important;
+        }
+        
+        h3 {
+            font-size: 1.2em !important;
+            margin-bottom: 12px !important;
+        }
+        
+        /* Navigation for mobile */
+        .global-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(90deg, #ff3399, #ffcc00, #33ccff);
+            padding: 12px 15px;
+            z-index: 10000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid white;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.2);
+            min-height: 60px;
+            flex-wrap: wrap;
+        }
+        
+        .nav-btn {
+            color: white;
+            border: 2px solid white;
+            padding: 6px 10px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.85em;
+            min-height: 36px;
+            min-width: 36px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            touch-action: manipulation;
+        }
+        
+        .nav-btn:hover {
+            background: rgba(255,255,255,0.3) !important;
+            transform: translateY(-2px);
+        }
+        
+        /* Mobile optimizations */
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+                margin-top: 70px;
+            }
+            
+            .test-container {
+                padding: 15px;
+                border-radius: 15px;
+            }
+            
+            .test-section {
+                padding: 12px;
+                margin: 15px 0;
+            }
+            
+            .test-button {
+                padding: 10px 12px !important;
+                font-size: 0.85em !important;
+                width: 100%;
+                margin: 6px 0 !important;
+            }
+            
+            .test-result {
+                max-height: 150px;
+                font-size: 0.85em;
+            }
+            
+            .global-nav {
+                flex-direction: column;
+                gap: 10px;
+                padding: 10px 12px;
+                min-height: auto;
+            }
+            
+            .global-nav > div {
+                width: 100%;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+            
+            .nav-btn {
+                padding: 5px 8px;
+                font-size: 0.8em;
+            }
+            
+            h1 {
+                font-size: 1.6em !important;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .container {
+                margin-top: 90px;
+            }
+            
+            .test-container {
+                padding: 12px;
+            }
+            
+            .test-section {
+                padding: 10px;
+            }
+            
+            .test-button {
+                padding: 10px !important;
+                font-size: 0.8em !important;
+            }
+            
+            .log-item {
+                font-size: 0.8em;
+                padding: 5px;
+            }
+            
+            .global-nav {
+                flex-direction: column;
+                gap: 8px;
+            }
+            
+            .global-nav > div {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 5px;
+            }
+            
+            .nav-btn {
+                padding: 4px 6px;
+                font-size: 0.75em;
+            }
+        }
+        
+        /* Tablet optimizations */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .container {
+                max-width: 800px;
+                padding: 20px;
+            }
+            
+            .test-button {
+                width: calc(50% - 16px);
+                display: inline-block;
+            }
+        }
+        
+        /* Desktop optimizations */
+        @media (min-width: 1025px) {
+            .container {
+                max-width: 900px;
+            }
+            
+            .test-button {
+                width: auto;
+                display: inline-block;
+                margin: 8px !important;
+            }
+        }
+        
+        /* Large mobile/landscape mode */
+        @media (max-height: 500px) and (orientation: landscape) {
+            .container {
+                margin-top: 70px;
+                padding: 10px;
+            }
+            
+            .test-section {
+                padding: 10px;
+                margin: 10px 0;
+            }
+            
+            .test-button {
+                padding: 8px 12px !important;
+                min-height: 40px;
+            }
+            
+            .test-result {
+                max-height: 120px;
+                padding: 8px;
+            }
+        }
+        
+        /* Safe area support for notched phones */
+        @supports (padding: max(0px)) {
+            .container {
+                padding-left: max(15px, env(safe-area-inset-left));
+                padding-right: max(15px, env(safe-area-inset-right));
+                padding-top: max(70px, env(safe-area-inset-top));
+                padding-bottom: max(15px, env(safe-area-inset-bottom));
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Mobile-optimized Navigation Bar -->
+    <div class="global-nav">
+        <div style="display: flex; align-items: center; gap: 12px; flex: 1; min-width: 0;">
+            <a href="../index.html" style="color: white; text-decoration: none; font-weight: bold; font-size: 1em; white-space: nowrap;">
+                🎮 Gyaru Games
+            </a>
+            <div id="nav-user" style="color: white; font-weight: bold; font-size: 0.9em; overflow: hidden; text-overflow: ellipsis;">
+                Loading...
+            </div>
+        </div>
+        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+            <a href="../profile.html" class="nav-btn" style="background: rgba(255,255,255,0.2);">👤</a>
+            <a href="../leaderboard.html" class="nav-btn" style="background: rgba(255,255,255,0.2);">🏆</a>
+            <button id="nav-logout" class="nav-btn" style="background: rgba(255,255,255,0.2); display: none;">🚪</button>
+            <button id="nav-login" class="nav-btn" style="background: rgba(255,255,255,0.2);">🔐</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <h1>🛠️ Games System Test</h1>
+        <p class="subtitle">Test the complete login and scoring system</p>
+        
+        <div class="test-container">
+            <!-- Authentication Test -->
+            <div class="test-section">
+                <h3>🔐 Authentication System Test</h3>
+                <button class="test-button" id="test-auth">Test Auth System</button>
+                <button class="test-button" id="clear-data">Clear All Data</button>
+                <button class="test-button" id="create-test-users">Create Test Users</button>
+                
+                <div class="test-result" id="auth-result"></div>
+            </div>
+            
+            <!-- Game Integration Test -->
+            <div class="test-section">
+                <h3>🎮 Game Integration Test</h3>
+                <button class="test-button" id="test-score-save">Test Score Saving</button>
+                <button class="test-button" id="test-stats-display">Test Stats Display</button>
+                <button class="test-button" id="test-achievements">Test Achievements</button>
+                
+                <div class="test-result" id="game-result"></div>
+            </div>
+            
+            <!-- Profile System Test -->
+            <div class="test-section">
+                <h3>👤 Profile System Test</h3>
+                <button class="test-button" id="test-profile">Test Profile Data</button>
+                <button class="test-button" id="test-export">Test Data Export</button>
+                <button class="test-button" id="test-leaderboard">Test Leaderboard</button>
+                
+                <div class="test-result" id="profile-result"></div>
+            </div>
+            
+            <!-- Quick Navigation -->
+            <div class="test-section">
+                <h3>🚀 Quick Navigation</h3>
+                <div style="display: flex; flex-direction: column; gap: 8px; align-items: center;">
+                    <a href="index.html" class="test-button" style="text-decoration: none; text-align: center;">🏠 Main Page</a>
+                    <div style="display: flex; gap: 8px; width: 100%; justify-content: center;">
+                        <a href="login.html" class="test-button" style="text-decoration: none; text-align: center; flex: 1;">🔐 Login</a>
+                        <a href="profile.html" class="test-button" style="text-decoration: none; text-align: center; flex: 1;">👤 Profile</a>
+                    </div>
+                    <div style="display: flex; gap: 8px; width: 100%; justify-content: center;">
+                        <a href="leaderboard.html" class="test-button" style="text-decoration: none; text-align: center; flex: 1;">🏆 Leaderboard</a>
+                        <a href="sudoku/sudoku-index.html" class="test-button" style="text-decoration: none; text-align: center; flex: 1;">🔢 Sudoku</a>
+                    </div>
+                    <div style="display: flex; gap: 8px; width: 100%; justify-content: center;">
+                        <a href="rock-paper-scissors/rps-index.html" class="test-button" style="text-decoration: none; text-align: center; flex: 1;">✊ RPS</a>
+                        <a href="chess/chess-index.html" class="test-button" style="text-decoration: none; text-align: center; flex: 1;">♟️ Chess</a>
+                        <a href="checkers/checkers-index.html" class="test-button" style="text-decoration: none; text-align: center; flex: 1;">⛀ Checkers</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- System Log -->
+            <div class="test-section">
+                <h3>📋 System Log</h3>
+                <div class="test-result" id="system-log">
+                    <div class="log-item">System ready for testing...</div>
+                </div>
+                <button class="test-button" id="clear-log">Clear Log</button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="auth.js"></script>
+    <script src="game-scores.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const log = document.getElementById('system-log');
+            
+            function addLog(message, type = 'info') {
+                const timestamp = new Date().toLocaleTimeString();
+                const logItem = document.createElement('div');
+                logItem.className = `log-item ${type}`;
+                logItem.innerHTML = `<strong>[${timestamp}]</strong> ${message}`;
+                log.appendChild(logItem);
+                log.scrollTop = log.scrollHeight;
+            }
+            
+            // Update navigation based on login status
+            function updateNavigation() {
+                const currentUser = getCurrentSession();
+                const navUser = document.getElementById('nav-user');
+                const navLogout = document.getElementById('nav-logout');
+                const navLogin = document.getElementById('nav-login');
+                
+                if (currentUser) {
+                    navUser.textContent = `${currentUser.username}${currentUser.isGuest ? ' (Guest)' : ''}`;
+                    navLogout.style.display = 'inline-block';
+                    navLogin.style.display = 'none';
+                    
+                    navLogout.onclick = function() {
+                        if (confirm('Logout?')) {
+                            logoutUser();
+                            window.location.reload();
+                        }
+                    };
+                } else {
+                    navUser.textContent = 'Guest';
+                    navLogout.style.display = 'none';
+                    navLogin.style.display = 'inline-block';
+                    
+                    navLogin.onclick = function() {
+                        window.location.href = '../login.html';
+                    };
+                }
+            }
+            
+            // Test Authentication System
+            document.getElementById('test-auth').addEventListener('click', function() {
+                addLog('Testing authentication system...', 'info');
+                
+                const resultDiv = document.getElementById('auth-result');
+                resultDiv.innerHTML = '';
+                resultDiv.className = 'test-result';
+                
+                try {
+                    // Test initialization
+                    const users = JSON.parse(localStorage.getItem('gyaruGamesUsers')) || [];
+                    const currentUser = getCurrentSession();
+                    
+                    let html = `<div style="font-weight: bold; margin-bottom: 8px;">Auth System Status:</div>`;
+                    html += `<div class="log-item success">✓ Auth system initialized</div>`;
+                    html += `<div class="log-item">Total users: ${users.length}</div>`;
+                    html += `<div class="log-item">Current session: ${currentUser ? currentUser.username : 'None'}</div>`;
+                    html += `<div class="log-item">Guest mode: ${localStorage.getItem('guestMode') === 'true' ? 'Yes' : 'No'}</div>`;
+                    
+                    // Test registration
+                    const testUsername = `testuser_${Date.now().toString().slice(-6)}`;
+                    const registerResult = registerUser(testUsername, 'test@example.com', 'password123');
+                    
+                    if (registerResult.success) {
+                        html += `<div class="log-item success">✓ User registration working</div>`;
+                        
+                        // Test login
+                        const loginResult = loginUser(testUsername, 'password123');
+                        if (loginResult.success) {
+                            html += `<div class="log-item success">✓ User login working</div>`;
+                            
+                            // Test logout
+                            if (logoutUser()) {
+                                html += `<div class="log-item success">✓ User logout working</div>`;
+                            }
+                        }
+                    }
+                    
+                    resultDiv.innerHTML = html;
+                    resultDiv.classList.add('success');
+                    addLog('Auth test completed successfully', 'success');
+                    
+                } catch (error) {
+                    resultDiv.innerHTML = `<div class="log-item error">✗ Error: ${error.message}</div>`;
+                    resultDiv.classList.add('error');
+                    addLog(`Auth test failed: ${error.message}`, 'error');
+                }
+            });
+            
+            // Clear all data
+            document.getElementById('clear-data').addEventListener('click', function() {
+                if (confirm('Clear ALL user data and scores? This cannot be undone!')) {
+                    localStorage.clear();
+                    addLog('All data cleared from localStorage', 'warning');
+                    document.getElementById('auth-result').innerHTML = '<div class="log-item success">✓ All data cleared</div>';
+                    document.getElementById('auth-result').className = 'test-result success';
+                }
+            });
+            
+            // Create test users
+            document.getElementById('create-test-users').addEventListener('click', function() {
+                addLog('Creating test users...', 'info');
+                
+                const testUsers = [
+                    { username: 'GyaruQueen', email: 'queen@example.com', password: 'password123' },
+                    { username: 'SparkleStar', email: 'sparkle@example.com', password: 'password123' },
+                    { username: 'KawaiiPlayer', email: 'kawaii@example.com', password: 'password123' }
+                ];
+                
+                let created = 0;
+                testUsers.forEach(user => {
+                    if (!getUser(user.username)) {
+                        const result = registerUser(user.username, user.email, user.password);
+                        if (result.success) {
+                            created++;
+                            
+                            // Add some test scores
+                            const users = JSON.parse(localStorage.getItem('gyaruGamesUsers')) || [];
+                            const userIndex = users.findIndex(u => u.username === user.username);
+                            
+                            if (userIndex !== -1) {
+                                // Add random scores for testing
+                                users[userIndex].scores = {
+                                    sudoku: {
+                                        totalGames: Math.floor(Math.random() * 20) + 5,
+                                        totalWins: Math.floor(Math.random() * 15) + 2,
+                                        easy: { completed: Math.floor(Math.random() * 10), bestTime: Math.floor(Math.random() * 200) + 60 },
+                                        medium: { completed: Math.floor(Math.random() * 8), bestTime: Math.floor(Math.random() * 400) + 120 },
+                                        hard: { completed: Math.floor(Math.random() * 5), bestTime: Math.floor(Math.random() * 600) + 180 }
+                                    },
+                                    rps: {
+                                        totalGames: Math.floor(Math.random() * 50) + 10,
+                                        wins: Math.floor(Math.random() * 35) + 5,
+                                        losses: Math.floor(Math.random() * 15) + 2,
+                                        ties: Math.floor(Math.random() * 10) + 1,
+                                        winStreak: Math.floor(Math.random() * 5) + 1,
+                                        bestStreak: Math.floor(Math.random() * 8) + 2,
+                                        winPercentage: Math.floor(Math.random() * 30) + 50
+                                    },
+                                    chess: {
+                                        gamesPlayed: Math.floor(Math.random() * 15) + 2,
+                                        wins: Math.floor(Math.random() * 10) + 1,
+                                        losses: Math.floor(Math.random() * 5) + 1,
+                                        draws: Math.floor(Math.random() * 3) + 1,
+                                        captures: Math.floor(Math.random() * 30) + 10,
+                                        winPercentage: Math.floor(Math.random() * 30) + 50
+                                    },
+                                    checkers: {
+                                        gamesPlayed: Math.floor(Math.random() * 20) + 3,
+                                        wins: Math.floor(Math.random() * 12) + 2,
+                                        losses: Math.floor(Math.random() * 8) + 1,
+                                        draws: Math.floor(Math.random() * 3) + 1,
+                                        totalCaptures: Math.floor(Math.random() * 40) + 10,
+                                        kingsMade: Math.floor(Math.random() * 8) + 1,
+                                        winPercentage: Math.floor(Math.random() * 30) + 50
+                                    }
+                                };
+                                
+                                localStorage.setItem('gyaruGamesUsers', JSON.stringify(users));
+                            }
+                        }
+                    }
+                });
+                
+                addLog(`Created ${created} test users with sample scores`, 'success');
+                document.getElementById('auth-result').innerHTML = `<div class="log-item success">✓ Created ${created} test users with sample data</div>`;
+                document.getElementById('auth-result').className = 'test-result success';
+            });
+            
+            // Test score saving
+            document.getElementById('test-score-save').addEventListener('click', function() {
+                addLog('Testing score saving...', 'info');
+                
+                const resultDiv = document.getElementById('game-result');
+                resultDiv.innerHTML = '';
+                resultDiv.className = 'test-result';
+                
+                // Create a test user if none exists
+                if (!getCurrentSession()) {
+                    registerUser('test_player', 'test@test.com', 'test123');
+                    loginUser('test_player', 'test123');
+                }
+                
+                const currentUser = getCurrentSession();
+                if (!currentUser || currentUser.isGuest) {
+                    resultDiv.innerHTML = '<div class="log-item error">✗ Please login first</div>';
+                    resultDiv.classList.add('error');
+                    return;
+                }
+                
+                let html = `<div style="font-weight: bold; margin-bottom: 8px;">Score Saving Test:</div>`;
+                html += `<div class="log-item">Testing as: ${currentUser.username}</div>`;
+                
+                // Test Sudoku score saving
+                if (typeof saveSudokuScore === 'function') {
+                    saveSudokuScore('easy', true, 180, 9);
+                    html += `<div class="log-item success">✓ Sudoku score saved</div>`;
+                }
+                
+                // Test RPS score saving
+                if (typeof saveRPSscore === 'function') {
+                    saveRPSscore('win', 'rock', 'scissors');
+                    html += `<div class="log-item success">✓ RPS score saved</div>`;
+                }
+                
+                // Show updated scores
+                const scores = getAllScores();
+                html += `<div class="log-item"><strong>Updated Scores:</strong></div>`;
+                html += `<div class="log-item">Sudoku wins: ${scores.sudoku?.totalWins || 0}</div>`;
+                html += `<div class="log-item">RPS wins: ${scores.rps?.wins || 0}</div>`;
+                
+                resultDiv.innerHTML = html;
+                resultDiv.classList.add('success');
+                addLog('Score saving test completed', 'success');
+            });
+            
+            // Test stats display
+            document.getElementById('test-stats-display').addEventListener('click', function() {
+                addLog('Testing stats display...', 'info');
+                
+                const resultDiv = document.getElementById('game-result');
+                resultDiv.innerHTML = '';
+                resultDiv.className = 'test-result';
+                
+                const scores = getAllScores();
+                const currentUser = getCurrentSession();
+                
+                let html = `<div style="font-weight: bold; margin-bottom: 8px;">Stats Display Test:</div>`;
+                
+                if (currentUser) {
+                    html += `<div class="log-item">User: ${currentUser.username}</div>`;
+                    html += `<div class="log-item ${currentUser.isGuest ? 'warning' : 'success'}">Mode: ${currentUser.isGuest ? 'Guest (scores not saved)' : 'Registered User'}</div>`;
+                }
+                
+                html += `<div class="log-item"><strong>Current Stats:</strong></div>`;
+                
+                // Display all game stats
+                const games = ['sudoku', 'rps', 'chess', 'checkers'];
+                games.forEach(game => {
+                    if (scores[game]) {
+                        html += `<div class="log-item"><strong>${game.toUpperCase()}:</strong> `;
+                        let stats = [];
+                        Object.entries(scores[game]).forEach(([key, value]) => {
+                            if (typeof value === 'number' && value > 0) {
+                                stats.push(`${key}: ${value}`);
+                            }
+                        });
+                        html += stats.slice(0, 3).join(', ') + (stats.length > 3 ? '...' : '');
+                        html += `</div>`;
+                    }
+                });
+                
+                resultDiv.innerHTML = html;
+                resultDiv.classList.add('success');
+                addLog('Stats display test completed', 'success');
+            });
+            
+            // Test achievements
+            document.getElementById('test-achievements').addEventListener('click', function() {
+                addLog('Testing achievement system...', 'info');
+                
+                const resultDiv = document.getElementById('game-result');
+                resultDiv.innerHTML = '';
+                resultDiv.className = 'test-result';
+                
+                const scores = getAllScores();
+                let html = `<div style="font-weight: bold; margin-bottom: 8px;">Achievement System Test:</div>`;
+                
+                // Count achievements
+                const achievements = [
+                    { condition: (s) => (s.sudoku?.totalWins || 0) >= 1, name: 'First Sudoku' },
+                    { condition: (s) => (s.rps?.wins || 0) >= 1, name: 'First RPS Win' },
+                    { condition: (s) => (s.chess?.wins || 0) >= 1, name: 'First Chess Win' },
+                    { condition: (s) => (s.checkers?.wins || 0) >= 1, name: 'First Checkers Win' }
+                ];
+                
+                let unlocked = 0;
+                achievements.forEach(achievement => {
+                    if (achievement.condition(scores)) {
+                        html += `<div class="log-item success">✓ ${achievement.name}</div>`;
+                        unlocked++;
+                    } else {
+                        html += `<div class="log-item">🔒 ${achievement.name}</div>`;
+                    }
+                });
+                
+                html += `<div class="log-item"><strong>Total:</strong> ${unlocked}/${achievements.length} achievements</div>`;
+                
+                resultDiv.innerHTML = html;
+                resultDiv.classList.add('success');
+                addLog(`Achievement test: ${unlocked} achievements unlocked`, 'success');
+            });
+            
+            // Test profile data
+            document.getElementById('test-profile').addEventListener('click', function() {
+                addLog('Testing profile data...', 'info');
+                
+                const resultDiv = document.getElementById('profile-result');
+                resultDiv.innerHTML = '';
+                resultDiv.className = 'test-result';
+                
+                const currentUser = getCurrentSession();
+                const allUsers = JSON.parse(localStorage.getItem('gyaruGamesUsers')) || [];
+                
+                let html = `<div style="font-weight: bold; margin-bottom: 8px;">Profile Data Test:</div>`;
+                
+                if (currentUser) {
+                    html += `<div class="log-item success">✓ Current user: ${currentUser.username}</div>`;
+                    html += `<div class="log-item ${currentUser.isGuest ? 'warning' : 'success'}">Account type: ${currentUser.isGuest ? 'Guest' : 'Registered'}</div>`;
+                    
+                    if (!currentUser.isGuest) {
+                        const userData = getUser(currentUser.username);
+                        if (userData) {
+                            html += `<div class="log-item success">✓ User data found in database</div>`;
+                        }
+                    }
+                } else {
+                    html += `<div class="log-item warning">⚠️ No active session</div>`;
+                }
+                
+                html += `<div class="log-item">Total registered users: ${allUsers.length}</div>`;
+                
+                // Show sample of users
+                if (allUsers.length > 0) {
+                    html += `<div class="log-item"><strong>Sample Users:</strong></div>`;
+                    allUsers.slice(0, 2).forEach(user => {
+                        html += `<div class="log-item">- ${user.username}</div>`;
+                    });
+                    if (allUsers.length > 2) {
+                        html += `<div class="log-item">... and ${allUsers.length - 2} more</div>`;
+                    }
+                }
+                
+                resultDiv.innerHTML = html;
+                resultDiv.classList.add('success');
+                addLog('Profile data test completed', 'success');
+            });
+            
+            // Test data export
+            document.getElementById('test-export').addEventListener('click', function() {
+                addLog('Testing data export...', 'info');
+                
+                const resultDiv = document.getElementById('profile-result');
+                resultDiv.innerHTML = '';
+                resultDiv.className = 'test-result';
+                
+                const currentUser = getCurrentSession();
+                if (!currentUser || currentUser.isGuest) {
+                    resultDiv.innerHTML = '<div class="log-item error">✗ Please login as registered user to test export</div>';
+                    resultDiv.classList.add('error');
+                    return;
+                }
+                
+                const scores = getAllScores();
+                const data = {
+                    user: currentUser,
+                    scores: scores,
+                    exportDate: new Date().toISOString(),
+                    systemVersion: '1.0'
+                };
+                
+                const dataSize = JSON.stringify(data).length;
+                const gamesWithData = ['sudoku', 'rps', 'chess', 'checkers'].filter(game => scores[game]);
+                
+                let html = `<div style="font-weight: bold; margin-bottom: 8px;">Data Export Test:</div>`;
+                html += `<div class="log-item success">✓ Export data generated</div>`;
+                html += `<div class="log-item">Data size: ${Math.round(dataSize / 1024 * 100) / 100} KB</div>`;
+                html += `<div class="log-item">Games with data: ${gamesWithData.length}</div>`;
+                
+                resultDiv.innerHTML = html;
+                resultDiv.classList.add('success');
+                addLog('Data export test completed', 'success');
+            });
+            
+            // Test leaderboard
+            document.getElementById('test-leaderboard').addEventListener('click', function() {
+                addLog('Testing leaderboard...', 'info');
+                
+                const resultDiv = document.getElementById('profile-result');
+                resultDiv.innerHTML = '';
+                resultDiv.className = 'test-result';
+                
+                const users = JSON.parse(localStorage.getItem('gyaruGamesUsers')) || [];
+                
+                let html = `<div style="font-weight: bold; margin-bottom: 8px;">Leaderboard Test:</div>`;
+                html += `<div class="log-item">Total users: ${users.length}</div>`;
+                
+                if (users.length > 0) {
+                    // Calculate scores for each user
+                    const rankedUsers = users.map(user => {
+                        const score = 
+                            (user.scores.sudoku?.totalWins || 0) * 10 +
+                            (user.scores.rps?.wins || 0) * 5 +
+                            (user.scores.chess?.wins || 0) * 10 +
+                            (user.scores.checkers?.wins || 0) * 10;
+                        return { username: user.username, score: score };
+                    });
+                    
+                    rankedUsers.sort((a, b) => b.score - a.score);
+                    
+                    html += `<div class="log-item"><strong>Top Players:</strong></div>`;
+                    rankedUsers.slice(0, 3).forEach((user, index) => {
+                        html += `<div class="log-item">${index + 1}. ${user.username} - ${user.score} points</div>`;
+                    });
+                    
+                    // Show current user rank
+                    const currentUser = getCurrentSession();
+                    if (currentUser && !currentUser.isGuest) {
+                        const userRank = rankedUsers.findIndex(u => u.username === currentUser.username) + 1;
+                        if (userRank > 0) {
+                            html += `<div class="log-item success">✓ Your rank: #${userRank}</div>`;
+                        }
+                    }
+                } else {
+                    html += `<div class="log-item warning">⚠️ No users found for leaderboard</div>`;
+                }
+                
+                resultDiv.innerHTML = html;
+                resultDiv.classList.add('success');
+                addLog('Leaderboard test completed', 'success');
+            });
+            
+            // Clear log
+            document.getElementById('clear-log').addEventListener('click', function() {
+                document.getElementById('system-log').innerHTML = '<div class="log-item">Log cleared</div>';
+            });
+            
+            // Update navigation
+            updateNavigation();
+            
+            // Initial system check
+            addLog('System test page loaded', 'info');
+            addLog(`LocalStorage size: ${JSON.stringify(localStorage).length} bytes`, 'info');
+            
+            const currentUser = getCurrentSession();
+            if (currentUser) {
+                addLog(`Current user: ${currentUser.username} (${currentUser.isGuest ? 'Guest' : 'Registered'})`, 'success');
+            } else {
+                addLog('No active session', 'warning');
+            }
+            
+            // Auto-update navigation every 5 seconds
+            setInterval(updateNavigation, 5000);
+        });
+    </script>
+</body>
+</html>

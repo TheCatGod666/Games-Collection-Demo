@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <!-- Viewport optimization -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+
+    <!-- Mobile web app capabilities -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="mobile-web-app-capable" content="yes">
+
+    <!-- Preload critical mobile resources -->
+    <link rel="stylesheet" href="mobile-optimizations.css">
+    <title>Games Collection - User Guide</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Mobile-first guide styles */
+        * {
+            box-sizing: border-box;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 70px 15px 20px;
+        }
+        
+        .guide-container {
+            width: 100%;
+            margin: 20px auto;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 25px;
+            border: 5px double #ff66cc;
+        }
+        
+        .section {
+            margin: 25px 0;
+            padding: 20px;
+            border-radius: 18px;
+            background: linear-gradient(45deg, rgba(255, 204, 255, 0.1), rgba(255, 255, 204, 0.1));
+            border: 3px solid #ffccff;
+        }
+        
+        .step {
+            background: white;
+            padding: 15px;
+            margin: 12px 0;
+            border-radius: 12px;
+            border-left: 4px solid #ff3399;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+        
+        .step-number {
+            background: linear-gradient(45deg, #ff3399, #ffcc00);
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.1em;
+            flex-shrink: 0;
+        }
+        
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 15px 0;
+        }
+        
+        .feature-card {
+            background: white;
+            padding: 15px;
+            border-radius: 12px;
+            border: 2px solid;
+            text-align: center;
+            min-height: 140px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .game-card {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            padding: 18px;
+            background: white;
+            border-radius: 15px;
+            margin: 15px 0;
+            border: 3px solid;
+        }
+        
+        .game-icon {
+            font-size: 2.5em;
+            text-align: center;
+        }
+        
+        .quick-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin: 20px 0;
+        }
+        
+        .nav-card {
+            padding: 15px 20px;
+            text-align: center;
+            border-radius: 15px;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            transition: transform 0.3s ease;
+            min-height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            touch-action: manipulation;
+        }
+        
+        .nav-card:hover {
+            transform: translateY(-3px);
+        }
+        
+        h1 {
+            font-size: 1.8em !important;
+            margin-bottom: 10px !important;
+        }
+        
+        .subtitle {
+            font-size: 1em !important;
+            margin-bottom: 20px !important;
+        }
+        
+        h2 {
+            font-size: 1.4em !important;
+            margin-bottom: 15px !important;
+        }
+        
+        h3 {
+            font-size: 1.1em !important;
+            margin-bottom: 8px !important;
+        }
+        
+        p {
+            font-size: 0.95em !important;
+            line-height: 1.5 !important;
+        }
+        
+        /* Mobile optimizations */
+        @media (max-width: 768px) {
+            .container {
+                padding-top: 80px;
+                padding-left: 10px;
+                padding-right: 10px;
+            }
+            
+            .guide-container {
+                padding: 15px;
+                border-radius: 20px;
+            }
+            
+            .section {
+                padding: 15px;
+                margin: 20px 0;
+            }
+            
+            .step {
+                padding: 12px;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            
+            .step-number {
+                width: 30px;
+                height: 30px;
+                font-size: 1em;
+            }
+            
+            .feature-grid {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+            
+            .feature-card {
+                padding: 12px;
+                min-height: 120px;
+            }
+            
+            .game-card {
+                padding: 15px;
+            }
+            
+            .nav-card {
+                padding: 12px 15px;
+                font-size: 0.95em;
+            }
+            
+            h1 {
+                font-size: 1.6em !important;
+            }
+            
+            h2 {
+                font-size: 1.3em !important;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .container {
+                padding-top: 70px;
+            }
+            
+            .guide-container {
+                padding: 12px;
+            }
+            
+            .section {
+                padding: 12px;
+                margin: 15px 0;
+            }
+            
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .game-card {
+                padding: 12px;
+            }
+            
+            .game-icon {
+                font-size: 2em;
+            }
+            
+            .nav-card {
+                padding: 10px 12px;
+                font-size: 0.9em;
+            }
+            
+            h1 {
+                font-size: 1.5em !important;
+            }
+            
+            h2 {
+                font-size: 1.2em !important;
+            }
+        }
+        
+        /* Tablet optimizations */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .container {
+                padding: 80px 20px 30px;
+            }
+            
+            .feature-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .quick-nav {
+                flex-direction: row;
+                flex-wrap: wrap;
+            }
+            
+            .nav-card {
+                flex: 1;
+                min-width: 180px;
+            }
+        }
+        
+        /* Desktop optimizations */
+        @media (min-width: 1025px) {
+            .feature-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+            
+            .quick-nav {
+                flex-direction: row;
+                flex-wrap: wrap;
+            }
+            
+            .nav-card {
+                flex: 1;
+                min-width: 200px;
+            }
+            
+            .game-card {
+                flex-direction: row;
+                align-items: center;
+            }
+            
+            .game-icon {
+                text-align: left;
+                min-width: 80px;
+            }
+        }
+        
+        /* Large mobile/landscape mode */
+        @media (max-height: 500px) and (orientation: landscape) {
+            .container {
+                padding-top: 70px;
+            }
+            
+            .section {
+                padding: 12px;
+                margin: 10px 0;
+            }
+            
+            .step {
+                padding: 10px;
+                margin: 8px 0;
+            }
+            
+            .feature-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
+            
+            .feature-card {
+                padding: 10px;
+                min-height: 110px;
+            }
+        }
+        
+        /* Safe area support for notched phones */
+        @supports (padding: max(0px)) {
+            .container {
+                padding-left: max(15px, env(safe-area-inset-left));
+                padding-right: max(15px, env(safe-area-inset-right));
+                padding-top: max(70px, env(safe-area-inset-top));
+                padding-bottom: max(15px, env(safe-area-inset-bottom));
+            }
+        }
+        
+        /* Button styles */
+        .nav-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            border-radius: 20px;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 10px;
+            font-size: 0.9em;
+            min-height: 40px;
+            min-width: 44px;
+            touch-action: manipulation;
+            text-align: center;
+        }
+        
+        /* Footer */
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            padding: 20px 15px;
+            color: white;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📖 Games Collection - User Guide</h1>
+        <p class="subtitle">Everything you need to know about our colorful game collection!</p>
+        
+        <div class="guide-container">
+            <!-- Getting Started -->
+            <div class="section">
+                <h2>🚀 Getting Started</h2>
+                
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div>
+                        <h3>Create Your Account</h3>
+                        <p>Go to <a href="login.html" style="color: #ff3399; font-weight: bold;">Login Page</a> and click "Register" to create your free account. You can also play as a guest, but your scores won't be saved permanently.</p>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div>
+                        <h3>Explore Games</h3>
+                        <p>Visit the <a href="index.html" style="color: #33ccff; font-weight: bold;">Main Page</a> to see all available games. Each game tracks your scores separately!</p>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div>
+                        <h3>Check Your Profile</h3>
+                        <p>View your <a href="profile.html" style="color: #9966ff; font-weight: bold;">Profile Page</a> to see all your stats, achievements, and rankings.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Available Games -->
+            <div class="section">
+                <h2>🎮 Available Games</h2>
+                
+                <div class="game-card" style="border-color: #ff3399;">
+                    <div class="game-icon">🔢</div>
+                    <div>
+                        <h3>Sudoku</h3>
+                        <p>Classic number puzzle with multiple difficulty levels and board sizes. Track your best completion times!</p>
+                        <p style="font-size: 0.9em; color: #666;"><strong>Features:</strong> 4x4, 9x9 boards • Easy/Medium/Hard difficulty • Notes system • Hint system</p>
+                        <a href="sudoku/sudoku-index.html" class="nav-btn" style="background: #ff3399;">Play Sudoku</a>
+                    </div>
+                </div>
+                
+                <div class="game-card" style="border-color: #33ccff;">
+                    <div class="game-icon">✊✋✌️</div>
+                    <div>
+                        <h3>Rock Paper Scissors</h3>
+                        <p>Classic hand game against the computer. Try to build the longest win streak!</p>
+                        <p style="font-size: 0.9em; color: #666;"><strong>Features:</strong> Win streak tracking • Choice statistics • 10-round matches • Detailed history</p>
+                        <a href="rock-paper-scissors/rps-index.html" class="nav-btn" style="background: #33ccff;">Play RPS</a>
+                    </div>
+                </div>
+                
+                <div class="game-card" style="border-color: #9966ff;">
+                    <div class="game-icon">♟️</div>
+                    <div>
+                        <h3>Chess</h3>
+                        <p>Complete chess implementation with AI opponent. Learn strategy and track your victories!</p>
+                        <p style="font-size: 0.9em; color: #666;"><strong>Features:</strong> Full chess rules • AI opponent • Move undo/redo • Hint system • Capture tracking</p>
+                        <a href="chess/chess-index.html" class="nav-btn" style="background: #9966ff;">Play Chess</a>
+                    </div>
+                </div>
+                
+                <div class="game-card" style="border-color: #ffcc00;">
+                    <div class="game-icon">⛀</div>
+                    <div>
+                        <h3>Checkers</h3>
+                        <p>Traditional checkers with complete rules. Become a king and capture your way to victory!</p>
+                        <p style="font-size: 0.9em; color: #666;"><strong>Features:</strong> Forced capture rules • King promotion • Multi-capture • AI opponent • Score tracking</p>
+                        <a href="checkers/checkers-index.html" class="nav-btn" style="background: #ffcc00;">Play Checkers</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Profile Features -->
+            <div class="section">
+                <h2>🌟 Profile Features</h2>
+                
+                <div class="feature-grid">
+                    <div class="feature-card" style="border-color: #ff3399;">
+                        <div style="font-size: 1.8em; margin-bottom: 8px;">📊</div>
+                        <h3>Detailed Statistics</h3>
+                        <p style="font-size: 0.9em;">Track your performance across all games with comprehensive stats.</p>
+                    </div>
+                    
+                    <div class="feature-card" style="border-color: #00cc66;">
+                        <div style="font-size: 1.8em; margin-bottom: 8px;">🏆</div>
+                        <h3>Achievements</h3>
+                        <p style="font-size: 0.9em;">Unlock 18+ achievements by completing challenges in different games.</p>
+                    </div>
+                    
+                    <div class="feature-card" style="border-color: #33ccff;">
+                        <div style="font-size: 1.8em; margin-bottom: 8px;">📈</div>
+                        <h3>Leaderboards</h3>
+                        <p style="font-size: 0.9em;">Compare your scores with other players on global and game-specific leaderboards.</p>
+                    </div>
+                    
+                    <div class="feature-card" style="border-color: #ff9900;">
+                        <div style="font-size: 1.8em; margin-bottom: 8px;">⚙️</div>
+                        <h3>Customization</h3>
+                        <p style="font-size: 0.9em;">Change your avatar, toggle settings, and personalize your gaming experience.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Quick Navigation -->
+            <div class="section">
+                <h2>🔗 Quick Navigation</h2>
+                
+                <div class="quick-nav">
+                    <a href="index.html" class="nav-card" style="background: linear-gradient(45deg, #ff3399, #ff66cc);">
+                        🏠 Main Page
+                    </a>
+                    
+                    <a href="profile.html" class="nav-card" style="background: linear-gradient(45deg, #33ccff, #66ffff);">
+                        👤 My Profile
+                    </a>
+                    
+                    <a href="leaderboard.html" class="nav-card" style="background: linear-gradient(45deg, #00cc66, #00ff99);">
+                        🏆 Leaderboards
+                    </a>
+                    
+                    <a href="test-system.html" class="nav-card" style="background: linear-gradient(45deg, #9966ff, #cc99ff);">
+                        🛠️ System Test
+                    </a>
+                </div>
+                
+                <div class="quick-nav">
+                    <a href="sudoku/sudoku-index.html" class="nav-card" style="background: #ff3399;">
+                        🔢 Sudoku
+                    </a>
+                    
+                    <a href="rock-paper-scissors/rps-index.html" class="nav-card" style="background: #33ccff;">
+                        ✊ RPS
+                    </a>
+                    
+                    <a href="chess/chess-index.html" class="nav-card" style="background: #9966ff;">
+                        ♟️ Chess
+                    </a>
+                    
+                    <a href="checkers/checkers-index.html" class="nav-card" style="background: #ffcc00;">
+                        ⛀ Checkers
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Tips & Tricks -->
+            <div class="section">
+                <h2>💡 Tips & Tricks</h2>
+                
+                <div class="step">
+                    <div class="step-number">💾</div>
+                    <div>
+                        <h3>Save Your Progress</h3>
+                        <p>Always login to save your scores permanently. Guest mode scores are lost when you close the browser.</p>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">📱</div>
+                    <div>
+                        <h3>Mobile Friendly</h3>
+                        <p>All games work perfectly on mobile devices. The interface adjusts automatically to your screen size.</p>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">🎨</div>
+                    <div>
+                        <h3>Theme</h3>
+                        <p>Enjoy the colorful, vibrant Gyaru aesthetic with animated backgrounds and flashy effects!</p>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">🔄</div>
+                    <div>
+                        <h3>Data Export</h3>
+                        <p>You can export all your game data from the Settings tab in your profile page.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Support -->
+            <div class="section">
+                <h2>🆘 Need Help?</h2>
+                <p>If you encounter any issues or have questions:</p>
+                
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <h3>Test the System</h3>
+                        <p style="font-size: 0.9em;">Use the <a href="test-system.html" style="color: #33ccff;">System Test Page</a> to diagnose any problems.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <h3>Clear Data</h3>
+                        <p style="font-size: 0.9em;">If experiencing issues, try clearing your browser cache and localStorage.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <h3>Report Bugs</h3>
+                        <p style="font-size: 0.9em;">Note any issues and report them for future updates.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <h3>Enjoy!</h3>
+                        <p style="font-size: 0.9em;">Most importantly, have fun playing our games! 🎉</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <footer style="background: linear-gradient(90deg, rgba(255, 51, 153, 0.8), rgba(255, 204, 0, 0.8)); border-radius: 15px;">
+            <p>© 2026 Games Collection | Created with ❤️ and lots of sparkles! ✨</p>
+        </footer>
+    </div>
+</body>
+</html>

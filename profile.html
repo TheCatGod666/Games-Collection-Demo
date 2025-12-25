@@ -1,0 +1,1794 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <!-- Viewport optimization -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+
+    <!-- Mobile web app capabilities -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="mobile-web-app-capable" content="yes">
+
+    <!-- Preload critical mobile resources -->
+    <link rel="stylesheet" href="mobile-optimizations.css">
+    <title>My Profile - Games Collection</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Profile-specific mobile-first styles */
+        * {
+            box-sizing: border-box;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+        
+        .profile-container {
+            width: 100%;
+            margin: 70px auto 20px;
+            padding: 15px;
+            max-width: 1200px;
+        }
+        
+        .profile-header {
+            background: linear-gradient(45deg, #ff3399, #ffcc00, #33ccff);
+            padding: 25px 15px;
+            border-radius: 25px;
+            text-align: center;
+            margin-bottom: 25px;
+            border: 4px solid white;
+            box-shadow: 0 10px 25px rgba(255, 51, 153, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .profile-header::before {
+            content: "★ ☆ ★";
+            position: absolute;
+            top: 8px;
+            left: 0;
+            right: 0;
+            font-size: 18px;
+            color: rgba(255, 255, 255, 0.3);
+            letter-spacing: 8px;
+        }
+        
+        .avatar {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, white, #ffccff);
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            border: 4px solid white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+            animation: avatarGlow 3s infinite alternate;
+        }
+        
+        @keyframes avatarGlow {
+            0% { box-shadow: 0 6px 15px rgba(255, 51, 153, 0.4); }
+            100% { box-shadow: 0 6px 20px rgba(51, 204, 255, 0.6); }
+        }
+        
+        .user-info {
+            color: white;
+            text-shadow: 1px 1px 0 rgba(0,0,0,0.2);
+        }
+        
+        .username {
+            font-size: 1.8em;
+            margin: 8px 0;
+            font-weight: 900;
+            line-height: 1.2;
+            padding: 0 10px;
+        }
+        
+        .member-since {
+            font-size: 1em;
+            opacity: 0.9;
+            padding: 0 10px;
+        }
+        
+        .guest-badge {
+            background: rgba(255, 255, 255, 0.9);
+            color: #ff3399;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-weight: bold;
+            display: inline-block;
+            margin-top: 8px;
+            border: 2px solid #ffcc00;
+            font-size: 0.9em;
+        }
+        
+        .profile-nav {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 8px;
+            margin: 20px 0;
+            padding: 0 5px;
+        }
+        
+        .nav-tab {
+            background: linear-gradient(45deg, #ffccff, #ffffcc);
+            border: 2px solid #ff66cc;
+            padding: 12px 15px;
+            border-radius: 20px;
+            color: #ff3399;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            min-width: 100px;
+            box-shadow: 0 3px 10px rgba(255, 102, 204, 0.3);
+            font-size: 0.9em;
+            flex: 1 1 auto;
+            min-height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            touch-action: manipulation;
+        }
+        
+        .nav-tab.active {
+            background: linear-gradient(45deg, #ff3399, #ffcc00);
+            color: white;
+            border-color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(255, 51, 153, 0.5);
+        }
+        
+        .nav-tab:hover:not(.active) {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 12px rgba(255, 102, 204, 0.4);
+        }
+        
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease;
+            width: 100%;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            margin: 20px 0;
+            width: 100%;
+        }
+        
+        .stat-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 20px;
+            border: 3px solid;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+            width: 100%;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-3px);
+        }
+        
+        .stat-card.sudoku { border-color: #ff3399; }
+        .stat-card.rps { border-color: #33ccff; }
+        .stat-card.chess { border-color: #9966ff; }
+        .stat-card.checkers { border-color: #ffcc00; }
+        
+        .stat-card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 15px;
+            padding-bottom: 12px;
+            border-bottom: 2px dashed;
+        }
+        
+        .stat-card.sudoku .stat-card-header { border-bottom-color: #ff3399; }
+        .stat-card.rps .stat-card-header { border-bottom-color: #33ccff; }
+        .stat-card.chess .stat-card-header { border-bottom-color: #9966ff; }
+        .stat-card.checkers .stat-card-header { border-bottom-color: #ffcc00; }
+        
+        .game-icon-large {
+            font-size: 2em;
+            background: linear-gradient(45deg, currentColor, white);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            min-width: 40px;
+        }
+        
+        .stat-card-title {
+            font-size: 1.2em;
+            font-weight: 900;
+            color: #333;
+        }
+        
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+            flex-wrap: wrap;
+        }
+        
+        .stat-item:last-child {
+            border-bottom: none;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+        
+        .stat-value {
+            font-size: 1.1em;
+            font-weight: 900;
+            color: #333;
+        }
+        
+        .progress-bar {
+            height: 6px;
+            background: #eee;
+            border-radius: 3px;
+            margin: 5px 0;
+            overflow: hidden;
+            width: 100%;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            border-radius: 3px;
+            transition: width 1s ease;
+        }
+        
+        .sudoku .progress-fill { background: linear-gradient(90deg, #ff3399, #ff66cc); }
+        .rps .progress-fill { background: linear-gradient(90deg, #33ccff, #66ffff); }
+        .chess .progress-fill { background: linear-gradient(90deg, #9966ff, #cc99ff); }
+        .checkers .progress-fill { background: linear-gradient(90deg, #ffcc00, #ffff00); }
+        
+        .achievements-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 12px;
+            margin: 20px 0;
+            width: 100%;
+        }
+        
+        .achievement-card {
+            background: linear-gradient(135deg, #fff0fa, #ffffcc);
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+            border: 2px solid #ffcc00;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            min-height: 140px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .achievement-card.locked {
+            opacity: 0.6;
+            filter: grayscale(0.5);
+        }
+        
+        .achievement-card:hover {
+            transform: scale(1.03);
+            box-shadow: 0 6px 15px rgba(255, 204, 0, 0.3);
+        }
+        
+        .achievement-icon {
+            font-size: 2.2em;
+            margin-bottom: 10px;
+            display: block;
+        }
+        
+        .achievement-title {
+            font-weight: bold;
+            color: #ff3399;
+            margin-bottom: 5px;
+            font-size: 0.95em;
+            line-height: 1.2;
+        }
+        
+        .achievement-desc {
+            color: #666;
+            font-size: 0.8em;
+            margin-bottom: 8px;
+            line-height: 1.2;
+        }
+        
+        .achievement-progress {
+            font-size: 0.75em;
+            color: #999;
+            font-weight: bold;
+        }
+        
+        .overall-stats {
+            background: linear-gradient(45deg, rgba(255, 51, 153, 0.1), rgba(255, 204, 0, 0.1));
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            border: 3px solid #ffccff;
+            width: 100%;
+        }
+        
+        .stat-big-number {
+            font-size: 2.5em;
+            font-weight: 900;
+            background: linear-gradient(45deg, #ff3399, #33ccff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-align: center;
+            margin: 15px 0;
+            line-height: 1;
+        }
+        
+        .stat-big-label {
+            text-align: center;
+            color: #666;
+            font-size: 1em;
+            font-weight: bold;
+        }
+        
+        .settings-panel {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 20px;
+            border: 3px solid #66ffff;
+            width: 100%;
+        }
+        
+        .setting-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 2px dashed #ffccff;
+            flex-wrap: wrap;
+        }
+        
+        .setting-item:last-child {
+            border-bottom: none;
+        }
+        
+        .setting-label {
+            font-weight: bold;
+            color: #333;
+            font-size: 1em;
+            margin-right: 15px;
+            flex: 1;
+        }
+        
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 54px;
+            height: 28px;
+            flex-shrink: 0;
+        }
+        
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, #999, #ccc);
+            transition: .4s;
+            border-radius: 34px;
+            min-height: 28px;
+        }
+        
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 20px;
+            width: 20px;
+            left: 4px;
+            bottom: 4px;
+            background: white;
+            transition: .4s;
+            border-radius: 50%;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        
+        input:checked + .toggle-slider {
+            background: linear-gradient(45deg, #00cc66, #00ff99);
+        }
+        
+        input:checked + .toggle-slider:before {
+            transform: translateX(26px);
+        }
+        
+        .danger-zone {
+            background: linear-gradient(45deg, rgba(255, 0, 0, 0.1), rgba(255, 102, 102, 0.1));
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            border: 3px solid #ff6666;
+            width: 100%;
+        }
+        
+        .danger-zone h3 {
+            color: #ff0000;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+        
+        .logout-btn {
+            background: linear-gradient(45deg, #ff9900, #ffcc00) !important;
+            border-color: #ffff00 !important;
+            width: 100%;
+            margin-top: 8px !important;
+        }
+        
+        .delete-btn {
+            background: linear-gradient(45deg, #ff0000, #ff6666) !important;
+            border-color: white !important;
+            width: 100%;
+            margin-top: 8px !important;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 40px 15px;
+            color: #999;
+            width: 100%;
+        }
+        
+        .empty-state-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+            opacity: 0.3;
+        }
+        
+        .profile-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            justify-content: center;
+            margin: 20px 0;
+            width: 100%;
+            padding: 0 5px;
+        }
+        
+        .action-btn {
+            width: 100% !important;
+            padding: 14px 20px !important;
+            margin: 4px 0 !important;
+            min-height: 50px;
+            font-size: 0.95em !important;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .back-to-games {
+            position: fixed;
+            top: 70px;
+            left: 10px;
+            background: linear-gradient(45deg, #33ccff, #66ffff);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: bold;
+            border: 2px solid white;
+            box-shadow: 0 3px 10px rgba(51, 204, 255, 0.3);
+            z-index: 999;
+            transition: all 0.3s ease;
+            font-size: 0.9em;
+            max-width: calc(100% - 20px);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .back-to-games:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(51, 204, 255, 0.5);
+        }
+        
+        .loading {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            border: 4px solid #ffccff;
+            border-radius: 50%;
+            border-top-color: #ff3399;
+            animation: spin 1s ease-in-out infinite;
+            margin: 15px auto;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Mobile optimizations */
+        @media (max-width: 768px) {
+            .profile-container {
+                margin-top: 60px;
+                padding: 10px;
+            }
+            
+            .profile-header {
+                padding: 20px 10px;
+                border-radius: 20px;
+                margin-bottom: 20px;
+            }
+            
+            .avatar {
+                width: 80px;
+                height: 80px;
+                font-size: 32px;
+            }
+            
+            .username {
+                font-size: 1.5em;
+            }
+            
+            .nav-tab {
+                padding: 10px 12px;
+                font-size: 0.85em;
+                min-width: 85px;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+            
+            .achievements-container {
+                grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+                gap: 10px;
+            }
+            
+            .back-to-games {
+                position: static;
+                display: block;
+                text-align: center;
+                margin: 15px auto;
+                width: 90%;
+                max-width: 300px;
+                padding: 12px 20px;
+            }
+            
+            .profile-actions {
+                flex-direction: column;
+            }
+            
+            .action-btn {
+                width: 100% !important;
+                margin: 5px 0 !important;
+            }
+            
+            .stat-big-number {
+                font-size: 2em;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .profile-header {
+                padding: 15px 8px;
+            }
+            
+            .username {
+                font-size: 1.3em;
+            }
+            
+            .nav-tab {
+                min-width: 70px;
+                padding: 8px 10px;
+                font-size: 0.8em;
+            }
+            
+            .achievements-container {
+                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            }
+            
+            .stat-card {
+                padding: 15px;
+            }
+            
+            .stat-card-title {
+                font-size: 1.1em;
+            }
+            
+            .game-icon-large {
+                font-size: 1.8em;
+            }
+            
+            .action-btn {
+                padding: 12px 15px !important;
+                font-size: 0.9em !important;
+            }
+        }
+        
+        /* Tablet optimizations */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .profile-container {
+                padding: 20px;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+            }
+            
+            .achievements-container {
+                grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+                gap: 15px;
+            }
+            
+            .nav-tab {
+                min-width: 120px;
+            }
+        }
+        
+        /* Large mobile/landscape mode */
+        @media (max-height: 500px) and (orientation: landscape) {
+            .profile-header {
+                padding: 15px;
+            }
+            
+            .avatar {
+                width: 60px;
+                height: 60px;
+                font-size: 28px;
+            }
+            
+            .username {
+                font-size: 1.3em;
+                margin: 5px 0;
+            }
+            
+            .profile-nav {
+                margin: 15px 0;
+            }
+            
+            .nav-tab {
+                padding: 8px 12px;
+                min-height: 40px;
+            }
+            
+            .profile-actions {
+                margin: 15px 0;
+            }
+            
+            .action-btn {
+                padding: 10px 15px !important;
+                min-height: 44px;
+            }
+        }
+        
+        /* Safe area support for notched phones */
+        @supports (padding: max(0px)) {
+            .profile-container {
+                padding-left: max(15px, env(safe-area-inset-left));
+                padding-right: max(15px, env(safe-area-inset-right));
+                padding-top: max(70px, env(safe-area-inset-top));
+                padding-bottom: max(20px, env(safe-area-inset-bottom));
+            }
+            
+            .back-to-games {
+                top: max(70px, env(safe-area-inset-top));
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Mobile-optimized Navigation Bar -->
+    <div class="global-nav" style="
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        background: linear-gradient(90deg, #ff3399, #ffcc00, #33ccff);
+        padding: 12px 15px;
+        z-index: 10000;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 2px solid white;
+        box-shadow: 0 3px 15px rgba(0,0,0,0.2);
+        min-height: 60px;
+    ">
+        <div style="display: flex; align-items: center; gap: 12px; overflow: hidden;">
+            <a href="../index.html" style="color: white; text-decoration: none; font-weight: bold; font-size: 1em; white-space: nowrap;">
+                🎮 Gyaru Games
+            </a>
+            <div id="nav-user" style="color: white; font-weight: bold; font-size: 0.9em; overflow: hidden; text-overflow: ellipsis;">
+                Loading...
+            </div>
+        </div>
+        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+            <a href="../profile.html" class="nav-btn" style="background: rgba(255,255,255,0.2); padding: 6px 10px; font-size: 0.85em;">👤</a>
+            <a href="../leaderboard.html" class="nav-btn" style="background: rgba(255,255,255,0.2); padding: 6px 10px; font-size: 0.85em;">🏆</a>
+            <button id="nav-logout" class="nav-btn" style="background: rgba(255,255,255,0.2); padding: 6px 10px; font-size: 0.85em; display: none;">🚪</button>
+            <button id="nav-login" class="nav-btn" style="background: rgba(255,255,255,0.2); padding: 6px 10px; font-size: 0.85em;">🔐</button>
+        </div>
+    </div>
+
+    <div style="height: 60px;"></div> <!-- Spacer for fixed nav -->
+
+    <style>
+        .nav-btn {
+            color: white;
+            border: 2px solid white;
+            padding: 8px 12px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-height: 36px;
+            min-width: 36px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            touch-action: manipulation;
+        }
+        
+        .nav-btn:hover {
+            background: rgba(255,255,255,0.3) !important;
+            transform: translateY(-2px);
+        }
+    </style>
+
+    <script>
+        // Update navigation based on login status
+        function updateNavigation() {
+            const currentUser = getCurrentSession();
+            const navUser = document.getElementById('nav-user');
+            const navLogout = document.getElementById('nav-logout');
+            const navLogin = document.getElementById('nav-login');
+            
+            if (currentUser) {
+                navUser.textContent = `${currentUser.username}${currentUser.isGuest ? ' (Guest)' : ''}`;
+                navLogout.style.display = 'inline-block';
+                navLogin.style.display = 'none';
+                
+                navLogout.onclick = function() {
+                    if (confirm('Logout?')) {
+                        logoutUser();
+                        window.location.reload();
+                    }
+                };
+            } else {
+                navUser.textContent = 'Guest';
+                navLogout.style.display = 'none';
+                navLogin.style.display = 'inline-block';
+                
+                navLogin.onclick = function() {
+                    window.location.href = '../login.html';
+                };
+            }
+        }
+        
+        // Update navigation every 5 seconds
+        setInterval(updateNavigation, 5000);
+        updateNavigation();
+    </script>
+
+    <!-- Back to Games Button -->
+    <a href="index.html" class="back-to-games">← Back to Games</a>
+    
+    <div class="profile-container">
+        <!-- Profile Header -->
+        <div class="profile-header">
+            <div class="avatar" id="user-avatar">👤</div>
+            <div class="user-info">
+                <h1 class="username" id="username-display">Loading...</h1>
+                <div class="member-since" id="member-since">Member since: --</div>
+                <div class="guest-badge" id="guest-badge" style="display: none;">Guest Player</div>
+            </div>
+        </div>
+        
+        <!-- Navigation Tabs -->
+        <div class="profile-nav">
+            <div class="nav-tab active" data-tab="overview">📊 Overview</div>
+            <div class="nav-tab" data-tab="sudoku">🔢 Sudoku</div>
+            <div class="nav-tab" data-tab="rps">✊✋✌️ RPS</div>
+            <div class="nav-tab" data-tab="chess">♟️ Chess</div>
+            <div class="nav-tab" data-tab="checkers">⛀ Checkers</div>
+            <div class="nav-tab" data-tab="achievements">🏆 Achievements</div>
+            <div class="nav-tab" data-tab="settings">⚙️ Settings</div>
+        </div>
+        
+        <!-- Tab Contents -->
+        <div class="tab-content active" id="overview-tab">
+            <h2 style="text-align: center; color: #ff3399; margin-bottom: 20px; font-size: 1.4em;">Your Gaming Journey</h2>
+            
+            <!-- Overall Stats -->
+            <div class="overall-stats">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 15px;">
+                    <div>
+                        <div class="stat-big-number" id="total-games">0</div>
+                        <div class="stat-big-label">Total Games</div>
+                    </div>
+                    <div>
+                        <div class="stat-big-number" id="total-wins">0</div>
+                        <div class="stat-big-label">Total Wins</div>
+                    </div>
+                    <div>
+                        <div class="stat-big-number" id="win-rate">0%</div>
+                        <div class="stat-big-label">Win Rate</div>
+                    </div>
+                    <div>
+                        <div class="stat-big-number" id="play-time">0h</div>
+                        <div class="stat-big-label">Play Time</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Quick Stats Grid -->
+            <h3 style="color: #33ccff; margin: 25px 0 15px 0; font-size: 1.2em;">Quick Stats</h3>
+            <div class="stats-grid">
+                <!-- Stats will be populated by JavaScript -->
+            </div>
+            
+            <!-- Recent Activity -->
+            <div class="overall-stats">
+                <h3 style="color: #ff3399; margin-bottom: 15px; font-size: 1.2em;">🎮 Recent Activity</h3>
+                <div id="recent-activity">
+                    <div class="empty-state">
+                        <div class="empty-state-icon">📊</div>
+                        <p>No recent activity yet</p>
+                        <p style="font-size: 0.85em;">Play some games to see your activity here!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Sudoku Tab -->
+        <div class="tab-content" id="sudoku-tab">
+            <h2 style="text-align: center; color: #ff3399; margin-bottom: 20px; font-size: 1.4em;">🔢 Sudoku Stats</h2>
+            <div id="sudoku-stats-content">
+                <!-- Will be populated by JavaScript -->
+            </div>
+        </div>
+        
+        <!-- RPS Tab -->
+        <div class="tab-content" id="rps-tab">
+            <h2 style="text-align: center; color: #33ccff; margin-bottom: 20px; font-size: 1.4em;">✊✋✌️ RPS Stats</h2>
+            <div id="rps-stats-content">
+                <!-- Will be populated by JavaScript -->
+            </div>
+        </div>
+        
+        <!-- Chess Tab -->
+        <div class="tab-content" id="chess-tab">
+            <h2 style="text-align: center; color: #9966ff; margin-bottom: 20px; font-size: 1.4em;">♟️ Chess Stats</h2>
+            <div id="chess-stats-content">
+                <!-- Will be populated by JavaScript -->
+            </div>
+        </div>
+        
+        <!-- Checkers Tab -->
+        <div class="tab-content" id="checkers-tab">
+            <h2 style="text-align: center; color: #ffcc00; margin-bottom: 20px; font-size: 1.4em;">⛀ Checkers Stats</h2>
+            <div id="checkers-stats-content">
+                <!-- Will be populated by JavaScript -->
+            </div>
+        </div>
+        
+        <!-- Achievements Tab -->
+        <div class="tab-content" id="achievements-tab">
+            <h2 style="text-align: center; color: #00cc66; margin-bottom: 20px; font-size: 1.4em;">🏆 Your Achievements</h2>
+            <div class="overall-stats" style="margin-bottom: 20px;">
+                <div style="text-align: center;">
+                    <div class="stat-big-number" id="achievement-count">0/50</div>
+                    <div class="stat-big-label">Achievements Unlocked</div>
+                </div>
+            </div>
+            <div class="achievements-container" id="achievements-container">
+                <!-- Achievements will be populated by JavaScript -->
+            </div>
+        </div>
+        
+        <!-- Settings Tab -->
+        <div class="tab-content" id="settings-tab">
+            <h2 style="text-align: center; color: #666; margin-bottom: 20px; font-size: 1.4em;">⚙️ Account Settings</h2>
+            
+            <!-- Preferences -->
+            <div class="settings-panel">
+                <h3 style="color: #33ccff; margin-bottom: 15px; font-size: 1.1em;">Preferences</h3>
+                
+                <div class="setting-item">
+                    <div class="setting-label">
+                        <span style="color: #ff3399;">🎵</span> Sound Effects
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="sound-toggle" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                
+                <div class="setting-item">
+                    <div class="setting-label">
+                        <span style="color: #ffcc00;">🔔</span> Notifications
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="notifications-toggle" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                
+                <div class="setting-item">
+                    <div class="setting-label">
+                        <span style="color: #00cc66;">🎨</span> Theme
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="theme-toggle" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+            </div>
+            
+            <!-- Account Actions -->
+            <div class="settings-panel" style="margin-top: 20px;">
+                <h3 style="color: #ff9900; margin-bottom: 15px; font-size: 1.1em;">Account Actions</h3>
+                
+                <div class="profile-actions">
+                    <button class="action-btn" id="export-data-btn">
+                        📤 Export Data
+                    </button>
+                    
+                    <button class="action-btn" id="reset-stats-btn">
+                        🔄 Reset Statistics
+                    </button>
+                    
+                    <button class="action-btn" id="change-avatar-btn">
+                        👤 Change Avatar
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Danger Zone -->
+            <div class="danger-zone">
+                <h3 style="color: #ff0000; font-size: 1.1em;">⚠️ Danger Zone</h3>
+                <p style="color: #666; margin-bottom: 15px; font-size: 0.9em;">These actions cannot be undone. Proceed with caution.</p>
+                
+                <div class="profile-actions">
+                    <button class="logout-btn action-btn" id="logout-btn">
+                        🚪 Logout
+                    </button>
+                    
+                    <button class="delete-btn action-btn" id="delete-account-btn">
+                        🗑️ Delete Account
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Profile Actions -->
+        <div class="profile-actions">
+            <button class="action-btn" id="play-sudoku-btn" style="background: linear-gradient(45deg, #ff3399, #ff66cc);">
+                🔢 Play Sudoku
+            </button>
+            
+            <button class="action-btn" id="play-rps-btn" style="background: linear-gradient(45deg, #33ccff, #66ffff);">
+                ✊✋✌️ Play RPS
+            </button>
+            
+            <button class="action-btn" id="play-chess-btn" style="background: linear-gradient(45deg, #9966ff, #cc99ff);">
+                ♟️ Play Chess
+            </button>
+            
+            <button class="action-btn" id="play-checkers-btn" style="background: linear-gradient(45deg, #ffcc00, #ffff00);">
+                ⛀ Play Checkers
+            </button>
+        </div>
+    </div>
+    
+    <!-- Make sure auth.js is loaded -->
+    <script src="auth.js"></script>
+    <script src="game-scores.js"></script>
+    
+    <!-- Profile-specific JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Tab switching functionality
+            const navTabs = document.querySelectorAll('.nav-tab');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            navTabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const tabId = this.getAttribute('data-tab');
+                    
+                    // Update active tab
+                    navTabs.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Show corresponding content
+                    tabContents.forEach(content => {
+                        content.classList.remove('active');
+                        if (content.id === tabId + '-tab') {
+                            content.classList.add('active');
+                        }
+                    });
+                    
+                    // Scroll to top of content on mobile
+                    if (window.innerWidth <= 768) {
+                        window.scrollTo({
+                            top: document.querySelector('.profile-container').offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+            
+            // Load user data
+            loadProfileData();
+            
+            // Setup button event listeners
+            setupButtonListeners();
+            
+            // Check login status
+            checkLoginStatus();
+        });
+        
+        function checkLoginStatus() {
+            const currentUser = getCurrentSession();
+            
+            if (!currentUser || currentUser.isGuest) {
+                // Redirect to login if not logged in
+                alert('Please login to view your profile!');
+                window.location.href = 'login.html';
+                return false;
+            }
+            
+            return true;
+        }
+        
+        function loadProfileData() {
+            const currentUser = getCurrentSession();
+            
+            if (!checkLoginStatus()) return;
+            
+            // Update header info
+            document.getElementById('username-display').textContent = currentUser.username;
+            
+            if (currentUser.email) {
+                document.getElementById('member-since').textContent = 
+                    `Email: ${currentUser.email}`;
+            }
+            
+            // Load all scores
+            const scores = getAllScores();
+            
+            // Update overview tab
+            updateOverviewTab(scores);
+            
+            // Update game-specific tabs
+            updateGameTab('sudoku', scores.sudoku);
+            updateGameTab('rps', scores.rps);
+            updateGameTab('chess', scores.chess);
+            updateGameTab('checkers', scores.checkers);
+            
+            // Load achievements
+            loadAchievements(scores);
+            
+            // Update recent activity
+            updateRecentActivity(scores);
+        }
+        
+        function updateOverviewTab(scores) {
+            // Calculate overall stats
+            const totalGames = (
+                (scores.sudoku?.totalGames || 0) +
+                (scores.rps?.totalGames || 0) +
+                (scores.chess?.gamesPlayed || 0) +
+                (scores.checkers?.gamesPlayed || 0)
+            );
+            
+            const totalWins = (
+                (scores.sudoku?.totalWins || 0) +
+                (scores.rps?.wins || 0) +
+                (scores.chess?.wins || 0) +
+                (scores.checkers?.wins || 0)
+            );
+            
+            const winRate = totalGames > 0 ? Math.round((totalWins / totalGames) * 100) : 0;
+            
+            // Calculate play time (estimate: 3 minutes per game)
+            const playTimeHours = Math.floor((totalGames * 3) / 60);
+            
+            // Update big numbers
+            document.getElementById('total-games').textContent = totalGames;
+            document.getElementById('total-wins').textContent = totalWins;
+            document.getElementById('win-rate').textContent = winRate + '%';
+            document.getElementById('play-time').textContent = playTimeHours + 'h';
+            
+            // Update quick stats grid
+            const statsGrid = document.querySelector('#overview-tab .stats-grid');
+            statsGrid.innerHTML = `
+                <div class="stat-card sudoku">
+                    <div class="stat-card-header">
+                        <span class="game-icon-large">🔢</span>
+                        <div class="stat-card-title">Sudoku</div>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Games Played:</span>
+                        <span class="stat-value">${scores.sudoku?.totalGames || 0}</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Total Wins:</span>
+                        <span class="stat-value">${scores.sudoku?.totalWins || 0}</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Best Time (Easy):</span>
+                        <span class="stat-value">${scores.sudoku?.easy?.bestTime ? formatTime(scores.sudoku.easy.bestTime) : '--'}</span>
+                    </div>
+                </div>
+                
+                <div class="stat-card rps">
+                    <div class="stat-card-header">
+                        <span class="game-icon-large">✊✋✌️</span>
+                        <div class="stat-card-title">Rock Paper Scissors</div>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Total Games:</span>
+                        <span class="stat-value">${scores.rps?.totalGames || 0}</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Win Rate:</span>
+                        <span class="stat-value">${scores.rps?.winPercentage || 0}%</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Best Streak:</span>
+                        <span class="stat-value">${scores.rps?.bestStreak || 0}</span>
+                    </div>
+                </div>
+                
+                <div class="stat-card chess">
+                    <div class="stat-card-header">
+                        <span class="game-icon-large">♟️</span>
+                        <div class="stat-card-title">Chess</div>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Games Played:</span>
+                        <span class="stat-value">${scores.chess?.gamesPlayed || 0}</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Win Rate:</span>
+                        <span class="stat-value">${scores.chess?.winPercentage || 0}%</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Pieces Captured:</span>
+                        <span class="stat-value">${scores.chess?.captures || 0}</span>
+                    </div>
+                </div>
+                
+                <div class="stat-card checkers">
+                    <div class="stat-card-header">
+                        <span class="game-icon-large">⛀</span>
+                        <div class="stat-card-title">Checkers</div>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Games Played:</span>
+                        <span class="stat-value">${scores.checkers?.gamesPlayed || 0}</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Win Rate:</span>
+                        <span class="stat-value">${scores.checkers?.winPercentage || 0}%</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Pieces Captured:</span>
+                        <span class="stat-value">${scores.checkers?.totalCaptures || 0}</span>
+                    </div>
+                </div>
+            `;
+        }
+        
+        function updateGameTab(game, scores) {
+            const container = document.getElementById(`${game}-stats-content`);
+            if (!container) return;
+            
+            if (!scores) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">🎮</div>
+                        <p>No ${game} stats yet</p>
+                        <p style="font-size: 0.85em;">Play some ${game} games to see your stats here!</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            let statsHTML = '';
+            
+            switch(game) {
+                case 'sudoku':
+                    statsHTML = `
+                        <div class="stats-grid">
+                            <div class="stat-card sudoku">
+                                <div class="stat-card-header">
+                                    <span class="game-icon-large">🔢</span>
+                                    <div class="stat-card-title">Overall</div>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Total Games:</span>
+                                    <span class="stat-value">${scores.totalGames || 0}</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Total Wins:</span>
+                                    <span class="stat-value">${scores.totalWins || 0}</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Win Rate:</span>
+                                    <span class="stat-value">${scores.totalGames ? Math.round((scores.totalWins || 0) / scores.totalGames * 100) : 0}%</span>
+                                </div>
+                            </div>
+                            
+                            <div class="stat-card sudoku">
+                                <div class="stat-card-header">
+                                    <span class="game-icon-large">😊</span>
+                                    <div class="stat-card-title">Easy Mode</div>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Completed:</span>
+                                    <span class="stat-value">${scores.easy?.completed || 0}</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Best Time:</span>
+                                    <span class="stat-value">${scores.easy?.bestTime ? formatTime(scores.easy.bestTime) : '--'}</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Avg Time:</span>
+                                    <span class="stat-value">${scores.easy?.completed ? formatTime((scores.easy.totalTime || 0) / scores.easy.completed) : '--'}</span>
+                                </div>
+                            </div>
+                            
+                            <div class="stat-card sudoku">
+                                <div class="stat-card-header">
+                                    <span class="game-icon-large">😐</span>
+                                    <div class="stat-card-title">Medium Mode</div>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Completed:</span>
+                                    <span class="stat-value">${scores.medium?.completed || 0}</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Best Time:</span>
+                                    <span class="stat-value">${scores.medium?.bestTime ? formatTime(scores.medium.bestTime) : '--'}</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Avg Time:</span>
+                                    <span class="stat-value">${scores.medium?.completed ? formatTime((scores.medium.totalTime || 0) / scores.medium.completed) : '--'}</span>
+                                </div>
+                            </div>
+                            
+                            <div class="stat-card sudoku">
+                                <div class="stat-card-header">
+                                    <span class="game-icon-large">😅</span>
+                                    <div class="stat-card-title">Hard Mode</div>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Completed:</span>
+                                    <span class="stat-value">${scores.hard?.completed || 0}</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Best Time:</span>
+                                    <span class="stat-value">${scores.hard?.bestTime ? formatTime(scores.hard.bestTime) : '--'}</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Avg Time:</span>
+                                    <span class="stat-value">${scores.hard?.completed ? formatTime((scores.hard.totalTime || 0) / scores.hard.completed) : '--'}</span>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'rps':
+                    const winRate = scores.winPercentage || 0;
+                    statsHTML = `
+                        <div class="stats-grid">
+                            <div class="stat-card rps">
+                                <div class="stat-card-header">
+                                    <span class="game-icon-large">📊</span>
+                                    <div class="stat-card-title">Overall Stats</div>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Total Games:</span>
+                                    <span class="stat-value">${scores.totalGames || 0}</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Wins:</span>
+                                    <span class="stat-value">${scores.wins || 0}</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Losses:</span>
+                                    <span class="stat-value">${scores.losses || 0}</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Ties:</span>
+                                    <span class="stat-value">${scores.ties || 0}</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Win Rate:</span>
+                                    <span class="stat-value">${winRate}%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: ${winRate}%"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="stat-card rps">
+                                <div class="stat-card-header">
+                                    <span class="game-icon-large">🔥</span>
+                                    <div class="stat-card-title">Streaks</div>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Current Streak:</span>
+                                    <span class="stat-value">${scores.winStreak || 0}</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Best Streak:</span>
+                                    <span class="stat-value">${scores.bestStreak || 0}</span>
+                                </div>
+                            </div>
+                            
+                            <div class="stat-card rps">
+                                <div class="stat-card-header">
+                                    <span class="game-icon-large">🎯</span>
+                                    <div class="stat-card-title">Choice Stats</div>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Rock Used:</span>
+                                    <span class="stat-value">${scores.choice_rock || 0}</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Paper Used:</span>
+                                    <span class="stat-value">${scores.choice_paper || 0}</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Scissors Used:</span>
+                                    <span class="stat-value">${scores.choice_scissors || 0}</span>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'chess':
+                    statsHTML = `
+                        <div class="stats-grid">
+                            <div class="stat-card chess">
+                                <div class="stat-card-header">
+                                    <span class="game-icon-large">📊</span>
+                                    <div class="stat-card-title">Overall Stats</div>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Games Played:</span>
+                                    <span class="stat-value">${scores.gamesPlayed || 0}</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Wins:</span>
+                                    <span class="stat-value">${scores.wins || 0}</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Losses:</span>
+                                    <span class="stat-value">${scores.losses || 0}</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Draws:</span>
+                                    <span class="stat-value">${scores.draws || 0}</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Win Rate:</span>
+                                    <span class="stat-value">${scores.winPercentage || 0}%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: ${scores.winPercentage || 0}%"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="stat-card chess">
+                                <div class="stat-card-header">
+                                    <span class="game-icon-large">⚔️</span>
+                                    <div class="stat-card-title">Combat Stats</div>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Pieces Captured:</span>
+                                    <span class="stat-value">${scores.captures || 0}</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Checkmates:</span>
+                                    <span class="stat-value">${scores.checkmateWins || 0}</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Total Points:</span>
+                                    <span class="stat-value">${scores.totalPoints || 0}</span>
+                                </div>
+                            </div>
+                            
+                            <div class="stat-card chess">
+                                <div class="stat-card-header">
+                                    <span class="game-icon-large">🎭</span>
+                                    <div class="stat-card-title">Game Types</div>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">White Games:</span>
+                                    <span class="stat-value">${scores.whiteGames || 0}</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Black Games:</span>
+                                    <span class="stat-value">${scores.blackGames || 0}</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Quick Games:</span>
+                                    <span class="stat-value">${scores.quickGames || 0}</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Long Games:</span>
+                                    <span class="stat-value">${scores.longGames || 0}</span>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'checkers':
+                    statsHTML = `
+                        <div class="stats-grid">
+                            <div class="stat-card checkers">
+                                <div class="stat-card-header">
+                                    <span class="game-icon-large">📊</span>
+                                    <div class="stat-card-title">Overall Stats</div>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Games Played:</span>
+                                    <span class="stat-value">${scores.gamesPlayed || 0}</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Wins:</span>
+                                    <span class="stat-value">${scores.wins || 0}</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Losses:</span>
+                                    <span class="stat-value">${scores.losses || 0}</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Draws:</span>
+                                    <span class="stat-value">${scores.draws || 0}</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Win Rate:</span>
+                                    <span class="stat-value">${scores.winPercentage || 0}%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: ${scores.winPercentage || 0}%"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="stat-card checkers">
+                                <div class="stat-card-header">
+                                    <span class="game-icon-large">👑</span>
+                                    <div class="stat-card-title">King Stats</div>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Kings Made:</span>
+                                    <span class="stat-value">${scores.kingsMade || 0}</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Double Kings:</span>
+                                    <span class="stat-value">${scores.doubleKings || 0}</span>
+                                </div>
+                            </div>
+                            
+                            <div class="stat-card checkers">
+                                <div class="stat-card-header">
+                                    <span class="game-icon-large">⚡</span>
+                                    <div class="stat-card-title">Capture Stats</div>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Total Captures:</span>
+                                    <span class="stat-value">${scores.totalCaptures || 0}</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Multi-Captures:</span>
+                                    <span class="stat-value">${scores.multiCaptures || 0}</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Forced Captures:</span>
+                                    <span class="stat-value">${scores.forcedCaptureGames || 0}</span>
+                                </div>
+                            </div>
+                            
+                            <div class="stat-card checkers">
+                                <div class="stat-card-header">
+                                    <span class="game-icon-large">🎭</span>
+                                    <div class="stat-card-title">Color Stats</div>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Red Wins:</span>
+                                    <span class="stat-value">${scores.redWins || 0}</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Black Wins:</span>
+                                    <span class="stat-value">${scores.blackWins || 0}</span>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    break;
+            }
+            
+            container.innerHTML = statsHTML;
+        }
+        
+        function loadAchievements(scores) {
+            const achievements = [
+                // Sudoku Achievements
+                { id: 'sudoku_first_win', icon: '🔢', title: 'First Sudoku', desc: 'Complete your first Sudoku puzzle', condition: (s) => (s.sudoku?.totalWins || 0) >= 1 },
+                { id: 'sudoku_master', icon: '🧠', title: 'Sudoku Master', desc: 'Complete 10 Sudoku puzzles', condition: (s) => (s.sudoku?.totalWins || 0) >= 10 },
+                { id: 'sudoku_speed', icon: '⚡', title: 'Speed Demon', desc: 'Complete a Sudoku in under 5 minutes', condition: (s) => (s.sudoku?.easy?.bestTime || 9999) < 300 },
+                { id: 'sudoku_hard', icon: '💪', title: 'Hard Mode Hero', desc: 'Complete a Hard Sudoku', condition: (s) => (s.sudoku?.hard?.completed || 0) >= 1 },
+                
+                // RPS Achievements
+                { id: 'rps_first_win', icon: '✊', title: 'First Victory', desc: 'Win your first Rock Paper Scissors game', condition: (s) => (s.rps?.wins || 0) >= 1 },
+                { id: 'rps_streak', icon: '🔥', title: 'Hot Streak', desc: 'Get a 5-game win streak in RPS', condition: (s) => (s.rps?.bestStreak || 0) >= 5 },
+                { id: 'rps_perfect', icon: '🌟', title: 'Perfect Game', desc: 'Win 10 RPS games in a row', condition: (s) => (s.rps?.bestStreak || 0) >= 10 },
+                { id: 'rps_balanced', icon: '⚖️', title: 'Balanced Player', desc: 'Play 50 RPS games', condition: (s) => (s.rps?.totalGames || 0) >= 50 },
+                
+                // Chess Achievements
+                { id: 'chess_first_win', icon: '♟️', title: 'First Checkmate', desc: 'Win your first chess game', condition: (s) => (s.chess?.wins || 0) >= 1 },
+                { id: 'chess_capturer', icon: '⚔️', title: 'Master Capturer', desc: 'Capture 50 pieces in chess', condition: (s) => (s.chess?.captures || 0) >= 50 },
+                { id: 'chess_strategist', icon: '🎯', title: 'Grand Strategist', desc: 'Win 10 chess games', condition: (s) => (s.chess?.wins || 0) >= 10 },
+                { id: 'chess_draw', icon: '🤝', title: 'Peacemaker', desc: 'Achieve a draw in chess', condition: (s) => (s.chess?.draws || 0) >= 1 },
+                
+                // Checkers Achievements
+                { id: 'checkers_first_win', icon: '⛀', title: 'First Checkers Win', desc: 'Win your first checkers game', condition: (s) => (s.checkers?.wins || 0) >= 1 },
+                { id: 'checkers_king', icon: '👑', title: 'King Maker', desc: 'Promote 10 pieces to kings', condition: (s) => (s.checkers?.kingsMade || 0) >= 10 },
+                { id: 'checkers_capturer', icon: '💥', title: 'Capture Master', desc: 'Capture 50 pieces in checkers', condition: (s) => (s.checkers?.totalCaptures || 0) >= 50 },
+                { id: 'checkers_multi', icon: '🌀', title: 'Multi-Capture', desc: 'Perform a triple capture', condition: (s) => (s.checkers?.multiCaptures || 0) >= 1 },
+                
+                // Cross-game Achievements
+                { id: 'multi_game', icon: '🎮', title: 'Multi-Gamer', desc: 'Play all 4 games', condition: (s) => 
+                    (s.sudoku?.totalGames || 0) > 0 && 
+                    (s.rps?.totalGames || 0) > 0 && 
+                    (s.chess?.gamesPlayed || 0) > 0 && 
+                    (s.checkers?.gamesPlayed || 0) > 0 },
+                
+                { id: 'total_wins', icon: '🏆', title: 'Winner!', desc: 'Win 50 games total', condition: (s) => 
+                    (s.sudoku?.totalWins || 0) + 
+                    (s.rps?.wins || 0) + 
+                    (s.chess?.wins || 0) + 
+                    (s.checkers?.wins || 0) >= 50 },
+                
+                { id: 'dedicated', icon: '❤️', title: 'Dedicated Player', desc: 'Play 100 games total', condition: (s) => 
+                    (s.sudoku?.totalGames || 0) + 
+                    (s.rps?.totalGames || 0) + 
+                    (s.chess?.gamesPlayed || 0) + 
+                    (s.checkers?.gamesPlayed || 0) >= 100 }
+            ];
+            
+            const container = document.getElementById('achievements-container');
+            const countElement = document.getElementById('achievement-count');
+            
+            let unlockedCount = 0;
+            let achievementsHTML = '';
+            
+            achievements.forEach(achievement => {
+                const isUnlocked = achievement.condition(scores);
+                if (isUnlocked) unlockedCount++;
+                
+                achievementsHTML += `
+                    <div class="achievement-card ${isUnlocked ? '' : 'locked'}">
+                        <span class="achievement-icon">${achievement.icon}</span>
+                        <div class="achievement-title">${achievement.title}</div>
+                        <div class="achievement-desc">${achievement.desc}</div>
+                        <div class="achievement-progress">
+                            ${isUnlocked ? '✅ Unlocked' : '🔒 Locked'}
+                        </div>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = achievementsHTML;
+            countElement.textContent = `${unlockedCount}/${achievements.length}`;
+        }
+        
+        function updateRecentActivity(scores) {
+            const container = document.getElementById('recent-activity');
+            const activities = [];
+            
+            // Check each game for recent activity
+            const games = ['sudoku', 'rps', 'chess', 'checkers'];
+            
+            games.forEach(game => {
+                if (scores[game]) {
+                    let activity = '';
+                    
+                    switch(game) {
+                        case 'sudoku':
+                            if (scores.sudoku.totalWins > 0) {
+                                activity = `🔢 Won ${scores.sudoku.totalWins} Sudoku puzzles`;
+                                activities.push(activity);
+                            }
+                            break;
+                            
+                        case 'rps':
+                            if (scores.rps.totalGames > 0) {
+                                activity = `✊✋✌️ Played ${scores.rps.totalGames} RPS games`;
+                                activities.push(activity);
+                            }
+                            break;
+                            
+                        case 'chess':
+                            if (scores.chess.gamesPlayed > 0) {
+                                activity = `♟️ Played ${scores.chess.gamesPlayed} chess matches`;
+                                activities.push(activity);
+                            }
+                            break;
+                            
+                        case 'checkers':
+                            if (scores.checkers.gamesPlayed > 0) {
+                                activity = `⛀ Played ${scores.checkers.gamesPlayed} checkers games`;
+                                activities.push(activity);
+                            }
+                            break;
+                    }
+                }
+            });
+            
+            if (activities.length === 0) {
+                return; // Keep the empty state
+            }
+            
+            // Show up to 5 recent activities
+            const recentActivities = activities.slice(0, 5);
+            let activityHTML = '<div style="display: flex; flex-direction: column; gap: 8px;">';
+            
+            recentActivities.forEach(activity => {
+                activityHTML += `
+                    <div style="background: rgba(255,255,255,0.7); padding: 8px 12px; border-radius: 8px; border-left: 3px solid #ff3399; font-size: 0.9em;">
+                        ${activity}
+                    </div>
+                `;
+            });
+            
+            activityHTML += '</div>';
+            container.innerHTML = activityHTML;
+        }
+        
+        function formatTime(seconds) {
+            if (!seconds) return '--';
+            const mins = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        }
+        
+        function setupButtonListeners() {
+            // Game navigation buttons
+            document.getElementById('play-sudoku-btn').addEventListener('click', () => {
+                window.location.href = 'sudoku/sudoku-index.html';
+            });
+            
+            document.getElementById('play-rps-btn').addEventListener('click', () => {
+                window.location.href = 'rock-paper-scissors/rps-index.html';
+            });
+            
+            document.getElementById('play-chess-btn').addEventListener('click', () => {
+                window.location.href = 'chess/chess-index.html';
+            });
+            
+            document.getElementById('play-checkers-btn').addEventListener('click', () => {
+                window.location.href = 'checkers/checkers-index.html';
+            });
+            
+            // Settings buttons
+            document.getElementById('export-data-btn').addEventListener('click', () => {
+                const currentUser = getCurrentSession();
+                const scores = getAllScores();
+                
+                const data = {
+                    user: currentUser,
+                    scores: scores,
+                    exportDate: new Date().toISOString()
+                };
+                
+                const dataStr = JSON.stringify(data, null, 2);
+                const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+                
+                const exportFileDefaultName = `gyaru-games-data-${currentUser.username}-${Date.now()}.json`;
+                
+                const linkElement = document.createElement('a');
+                linkElement.setAttribute('href', dataUri);
+                linkElement.setAttribute('download', exportFileDefaultName);
+                linkElement.click();
+                
+                alert('Data exported successfully!');
+            });
+            
+            document.getElementById('reset-stats-btn').addEventListener('click', () => {
+                if (confirm('Are you sure you want to reset ALL your statistics? This cannot be undone!')) {
+                    // Reset all game scores
+                    ['sudoku', 'rps', 'chess', 'checkers'].forEach(game => {
+                        resetGameScores(game);
+                    });
+                    
+                    alert('Statistics reset! Refreshing page...');
+                    setTimeout(() => location.reload(), 1000);
+                }
+            });
+            
+            document.getElementById('change-avatar-btn').addEventListener('click', () => {
+                const avatars = ['👤', '👨‍💻', '👩‍💻', '🎮', '🌟', '😎', '🤖', '🐱', '🦊', '🐼'];
+                const currentAvatar = document.getElementById('user-avatar').textContent;
+                const currentIndex = avatars.indexOf(currentAvatar);
+                const nextIndex = (currentIndex + 1) % avatars.length;
+                
+                document.getElementById('user-avatar').textContent = avatars[nextIndex];
+                localStorage.setItem('gyaruGamesAvatar', avatars[nextIndex]);
+            });
+            
+            document.getElementById('logout-btn').addEventListener('click', () => {
+                if (confirm('Are you sure you want to logout?')) {
+                    logoutUser();
+                    window.location.href = 'index.html';
+                }
+            });
+            
+            document.getElementById('delete-account-btn').addEventListener('click', () => {
+                if (confirm('⚠️ WARNING: This will permanently delete your account and all your data! This cannot be undone! Are you absolutely sure?')) {
+                    const currentUser = getCurrentSession();
+                    
+                    if (currentUser && !currentUser.isGuest) {
+                        // Remove user from storage
+                        const users = JSON.parse(localStorage.getItem('gyaruGamesUsers')) || [];
+                        const updatedUsers = users.filter(u => u.username !== currentUser.username);
+                        localStorage.setItem('gyaruGamesUsers', JSON.stringify(updatedUsers));
+                        
+                        // Clear session
+                        logoutUser();
+                        
+                        alert('Account deleted successfully. Redirecting to home page...');
+                        window.location.href = 'index.html';
+                    }
+                }
+            });
+            
+            // Load saved avatar
+            const savedAvatar = localStorage.getItem('gyaruGamesAvatar');
+            if (savedAvatar) {
+                document.getElementById('user-avatar').textContent = savedAvatar;
+            }
+        }
+        
+        // Refresh profile every 30 seconds to keep stats updated
+        setInterval(loadProfileData, 30000);
+    </script>
+</body>
+</html>
